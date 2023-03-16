@@ -1,0 +1,21 @@
+.App{
+  background-color: #282c34;
+  color: white;
+}
+
+.App-content   {
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.uploadForm{
+  border: 5px red;
+}
+
+.songSelectForm{
+  border: 5px blue;
+}

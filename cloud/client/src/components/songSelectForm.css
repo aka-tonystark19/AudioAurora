@@ -1,0 +1,73 @@
+.songContent p{
+    white-space: pre-line;
+}
+
+#playButton{
+    /* convert ancor to button */
+    display: inline-block;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    border-radius: 4px;
+    color: #FFFFFF;
+    
+}
+
+#playButton.playInactive{
+    background-color: #5C5C5C;
+    cursor: not-allowed;
+}
+
+.playActive{
+  background-color: #4CAF50;
+  /* color: #FFFFFF; */
+  cursor: pointer;
+}
+.playActive:hover{
+  background-color: #388E3C ;
+  /* color: #FFFFFF; */
+  
+}
+.playActive:active{
+  background-color: #1B5E20;
+  /* color: #FFFFFF; */
+}
+
+.DDContainer .dropdown__control {
+    background-color: #292c33;
+    color: #FFFFFF;
+}
+
+.DDContainer .dropdown__control:hover {
+    border-color: #2684ff;
+    color: #FFFFFF !important;
+}
+
+.DDContainer .dropdown__menu {
+    background-color: #292c33;
+}
+
+.DDContainer .dropdown__option {
+    background-color: #252a37
+}
+
+.DDContainer .dropdown__option:hover {
+    background-color: #1e273e
+}
+
+.DDContainer .dropdown__indicator-separator {
+    background-color: white;
+}
+
+.DDContainer .dropdown__indicator>svg {
+    color: white;
+}
+
+.DDContainer .dropdown__input-container,
+.DDContainer .dropdown__placeholder,
+.DDContainer .dropdown__single-value {
+    color: black
+}
+
+.playButton {
+    background-color: red;
+}

@@ -1,0 +1,46 @@
+
+  
+  .upload {
+    text-align: center;
+    border: 2px gray solid;
+    cursor: pointer;
+    padding: 20%;
+  }
+
+ .uploadFormSymbol{
+  fill:gray;
+ }
+  
+  .wrongFileError{
+    color: red;
+    font-size: 20px;
+  }
+  
+  .wrongNameError{
+    color: red;
+    font-size: 20px;
+  }
+
+  #submitButton{
+    border: none;
+  }
+  
+  #submitButton.buttonInactive{
+    background-color: #BDBDBD;
+    color: #555555;
+    cursor: not-allowed;
+  }
+
+  .buttonActive{
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    cursor: pointer;
+  }
+
+  .buttonActive:hover{
+    background-color: #388E3C ;
+  }
+
+  .buttonActive:active{
+    background-color: #1B5E20;
+  }
