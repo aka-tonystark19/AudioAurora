@@ -1,7 +1,10 @@
 import React, {useState, useEffect}  from "react";
 import Select from 'react-select';
+import ReactAudioPlayer from 'react-audio-player';
 
 import './songSelectForm.css';
+
+// const sound = require("sound-play");
 
 function SongSelectForm ({fileList}) {
 
@@ -18,6 +21,9 @@ function SongSelectForm ({fileList}) {
             fetch(`http://localhost:8000/get_song_data?name=${song}`)
             .then(res => res.json()).then(data => {
                 setsongDetails(data);
+                var audio = new Audio(`http://localhost:8000/get_audio_file/${song}.wav`);
+                audio.play();
+                console.log(song);
             })
             .catch(err => console.log(err));
         }

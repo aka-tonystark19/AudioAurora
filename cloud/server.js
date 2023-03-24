@@ -5,9 +5,11 @@ const express = require('express');
 const multer = require("multer");
 const axios = require('axios');
 const net = require('net');
+const sound = require("sound-play");
 const Database = require('./Database.js');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
+// const node-aplay = require('node-aplay');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 // Paths Used by the server
@@ -89,7 +91,7 @@ const identifySong = (name) => {
 				},
 				headers: { 'Content-Type': 'multipart/form-data' },
 			})
-			.then(response => response.data)
+			.then(response => {console.log(response.data); return response.data})
 			.catch(error => console.log(error));
 			// Returns the path of the trimmed song and the data from the API to pass to the next promise
 			return { path: path, songData: songData }
@@ -125,42 +127,6 @@ const getLyrics = (name, artist) => {
 	})
 }
 
-const TCPConnection = (name) =>{
-	const ip = '192.168.1.1';
-	const port = 80;
-
-	// Connect to the server
-	const myConnect = net.createConnection({ host: ip, port: port }, () => {
-		console.log(`Connected to ${ip}:${port}`);
-		
-		// myConnect.write(`Paragraph 1: The sun was setting over the horizon, painting the sky with a breathtaking array of oranges, pinks, and purples. The air was still and calm, and a gentle breeze rustled through the trees. The chirping of birds could be heard in the distance, and the sound of a distant stream added to the peaceful ambiance. As the darkness crept in, the stars began to twinkle in the sky, illuminating the world with a quiet beauty.\n\nParagraph 2: Sarah had always been fascinated by the ocean. She loved the way the waves crashed against the shore, the salty smell of the sea, and the feel of the sand between her toes. Whenever she had a chance, she would spend hours walking along the beach, collecting shells and watching the seabirds.`);
-		// let arr = []
-		// for (let i = 33; i <= 126; i++) {
-		// 	arr.push(i);
-		//   }	
-		// console.log(arr.length)
-		// let BetterArr = new Uint8Array(arr);
-		// myConnect.write(BetterArr);
-
-
-		myConnect.write(`uplods/${name}.wav`);
-
-
-		myConnect.end();
-
-		// File Stream connection
-		// myConnect.pipe("H");
-		// fileStream.on('end', () => {
-		// 	console.log('File sent');
-		// 	client.end();
-		//   });
-	});
-
-	myConnect.on('error', (err) => {
-		console.error(err);
-	});
-
-}
 // Express app: sets up middleware for express
 const app = express();
 app.use(express.json());
@@ -197,14 +163,44 @@ app.get("/file_list", (req, res) => {
 
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {
-	// Make API request that sends HELLO to 10.43.73.30:80 using axios
-
-	TCPConnection(req.query.name)
+	
+	// TO DO: PLAY SONG located on 'uploads/${req.query.name}.wav' on react app
+	// sound.play("uploads/${req.query.name}.wav");
 	// get a file from the uplaods folder
+	var tempSong = req.query.name;
+	sound.play(`uploads/${tempSong}.wav`).then((response) => console.log(tempSong));
+		
 	db.getSong("defaultUser", req.query.name).then((data) => {
 		res.send(JSON.stringify(data));
+		// sound.play("uploads/${req.query.name}.wav");
+		// console.log("inside get song data");
+		// var audio = new Audio('uploads/${req.query.name}.wav');
+		// audio.play();
+		// if(typeof Audio != "undefined") {
+		// 	// Browser-only code
+		// 	var audio = new Audio('uploads/${req.query.name}.wav');
+		// 	audio.play();
+		//   }
+
 	})
 });
+
+// app.get("/get_song_audio", (req, res) => {
+	
+// 	// TO DO: PLAY SONG located on 'uploads/${req.query.name}.wav' on react app
+// 	// sound.play("uploads/${req.query.name}.wav");
+// 	// get a file from the uplaods folder
+// 	var tempSong = req.query.name;
+// 	sound.play(`uploads/${tempSong}.wav`).then((response) => console.log(tempSong));
+		
+// 	db.getSong("defaultUser", req.query.name).then((data) => {
+// 		res.send(data);
+// 	})
+// });
+// console.log(path.join(__dirname, "uploads"));
+
+app.use("/get_audio_file", express.static(path.join(__dirname, "uploads")));
+
 
 // Runs the server
 app.listen(port, () => {
