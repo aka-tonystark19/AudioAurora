@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="fft_acc" kind="fft_acc" version="1.0" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2023.03.23.18:16:17 -->
+ <!-- 2023.03.25.14:41:30 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1679620577</value>
+  <value>1679780490</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -2453,7 +2453,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.configuration.DataCacheVictimBufImpl</name>
-   <value>ram</value>
+   <value>reg</value>
   </assignment>
   <assignment>
    <name>embeddedsw.configuration.HDLSimCachesCleared</name>
@@ -3201,7 +3201,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="dcache_victim_buf_impl">
    <type>java.lang.String</type>
-   <value>ram</value>
+   <value>reg</value>
    <derived>false</derived>
    <enabled>false</enabled>
    <visible>true</visible>

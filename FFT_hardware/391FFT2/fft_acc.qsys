@@ -255,7 +255,7 @@
   <parameter name="dcache_ramBlockType" value="Automatic" />
   <parameter name="dcache_size" value="2048" />
   <parameter name="dcache_tagramBlockType" value="Automatic" />
-  <parameter name="dcache_victim_buf_impl" value="ram" />
+  <parameter name="dcache_victim_buf_impl" value="reg" />
   <parameter name="debug_OCIOnchipTrace" value="_128" />
   <parameter name="debug_assignJtagInstanceID" value="false" />
   <parameter name="debug_datatrigger" value="0" />

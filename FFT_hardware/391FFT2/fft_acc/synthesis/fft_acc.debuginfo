@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="fft_acc" kind="system" version="18.1" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2023.03.23.18:16:32 -->
+ <!-- 2023.03.25.14:41:48 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1679620577</value>
+  <value>1679780490</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -2529,7 +2529,7 @@ the requested settings for a module instance. -->
   </assignment>
   <assignment>
    <name>embeddedsw.configuration.DataCacheVictimBufImpl</name>
-   <value>ram</value>
+   <value>reg</value>
   </assignment>
   <assignment>
    <name>embeddedsw.configuration.HDLSimCachesCleared</name>
@@ -3277,7 +3277,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="dcache_victim_buf_impl">
    <type>java.lang.String</type>
-   <value>ram</value>
+   <value>reg</value>
    <derived>false</derived>
    <enabled>false</enabled>
    <visible>true</visible>
@@ -14245,5 +14245,5 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <reportVersion>18.1 625</reportVersion>
- <uniqueIdentifier>7A7919335E2C0000018711302225</uniqueIdentifier>
+ <uniqueIdentifier>7A7919335E2C000001871AB83A36</uniqueIdentifier>
 </EnsembleReport>

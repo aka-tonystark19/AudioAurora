@@ -2,8 +2,8 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>23-Mar-2023 6:23:33 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1679621014044</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>25-Mar-2023 2:48:53 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1679780933790</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\CPEN391\391FFT2\Software\fft_mem_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\fft_acc.sopcinfo</SopcDesignFile>

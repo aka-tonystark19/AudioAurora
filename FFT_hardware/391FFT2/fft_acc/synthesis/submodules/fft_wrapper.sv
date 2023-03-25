@@ -21,9 +21,7 @@ module fft_wrapper(input logic clk, input logic rst_n,
 	enum{INIT, START, READ, WAITFFT, WRITE, DONE} state, next_state;
 
 	//values from CPU
-	//logic [31:0] dest_address, src_address, dest_address2, src_address2;
-	//logic [31:0] new_dest_address, new_src_address, new_dest_address2, new_src_address2;
-	logic [31:0] new_m_addr; //the two address are the same so only need one address
+	logic [31:0] new_m_addr, new_m_addr2; //the two address are the same so only need one address
 	logic [31:0] x0, y0, x1, y1, x2, y2, x3, y3;
 	logic [9:0] count, new_count; //keep track of how many times I have read or written (512)
 	logic [31:0] mag; //magnitude of output
@@ -48,14 +46,14 @@ module fft_wrapper(input logic clk, input logic rst_n,
 			count <= 0;
 			//reset <= 1'b1; //rest for the fft
 			master_address <= 32'h7000;
-			master_address2 <= 1'b1 + 32'h6000;
+			master_address2 <= 32'h6000;
 		end
 		else begin
 			state <= next_state;
 			count <= new_count;	
 			//reset <= 1'b0;
-			master_address <= new_m_addr + 32'h7000;
-			master_address2 <= new_m_addr + 32'h6000 + 1'b1;
+			master_address <= new_m_addr;
+			master_address2 <= new_m_addr2;
 		end
 		
 	end
@@ -65,7 +63,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 			INIT: begin //reset the fft first
 				next_state = (slave_write && slave_address == 4'd0) ? START : INIT;
 				new_count = 1'b0;
-				new_m_addr = 0;
+				new_m_addr = 32'h7000;
+				new_m_addr2 = 32'h6000;
 				reset = 1'b1; //reset the fft
 				next = 1'b0;
 
@@ -83,19 +82,23 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				LEDR[9:4]= 6'b100000;
 			end
 			START:begin //signal the fft to start reading values
-			if(master_waitrequest == 1'b0) begin
+			//if(master_waitrequest == 1'b0 && master_waitrequest2 == 1'b0) begin
 				next_state = READ;
 				next = 1'b1; //signal the fft to start reading values
 				master_read = 1'b1;
 				master_read2 = 1'b1;
-				new_m_addr = master_address + 2'b10; //need to read the next val next clock
+				new_m_addr = master_address + 32'd4; //need to read the next val next clock
+				new_m_addr2 = master_address2 + 32'd4;
+				/*
 			end else begin
 				next_state = state; //master busy
 				next = 1'b0; //don't signal the fft
 				master_read = 1'b0;
 				master_read2 = 1'b0;
-				new_m_addr = 32'b0;
+				new_m_addr = 32'h7000;
+				new_m_addr2 = 32'h6000;
 			end
+			*/
 				new_count = 0;
 				reset = 1'b0;
 				
@@ -116,13 +119,15 @@ module fft_wrapper(input logic clk, input logic rst_n,
 					new_count = count + 1'b1;
 					master_read = 1'b1;
 					master_read2 = 1'b1;
-					new_m_addr = master_address + 2'b10;
+					new_m_addr = master_address + 32'd4;
+					new_m_addr2 = master_address2 + 32'd4;
 				end else begin
 					next_state = WAITFFT;
 					new_count = 1'b0;
 					master_read = 1'b0;
 					master_read2 = 1'b0;
-					new_m_addr = 32'b0;
+					new_m_addr = 32'h7000;
+					new_m_addr2 = 32'h6000;
 				end
 				//check for valid data
 				if(master_readdatavalid == 1'b1 && master_readdatavalid2 == 1'b1) begin
@@ -151,7 +156,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 					next_state = state;
 				end
 				new_count = 1'b0;
-				new_m_addr = 0;
+				new_m_addr = 32'h7000;
+				new_m_addr2 = 32'h6000;
 				reset = 1'b0;
 				next = 1'b0;
 
@@ -175,13 +181,15 @@ module fft_wrapper(input logic clk, input logic rst_n,
 					new_count = count + 1'b1;
 					master_write = 1'b1;
 					master_write2 = 1'b1;
-					new_m_addr = master_address + 2'b10;
+					new_m_addr = master_address + 32'd4;
+					new_m_addr2 = master_address2 + 32'd4;
 				end else begin
 					next_state = DONE;
 					new_count = 1'b0;
 					master_write = 1'b0;
 					master_write2 = 1'b0;
-					new_m_addr = 32'b0;
+					new_m_addr = 32'h7000;
+					new_m_addr2 = 32'h6000;
 				end
 				//fft inputs
 				x0 = 0;
@@ -199,7 +207,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 			DONE:begin //done
 				next_state = INIT;
 				new_count = 1'b0;
-				new_m_addr = 32'b0;
+				new_m_addr = 32'h7000;
+				new_m_addr2 = 32'h6000;
 				reset = 1'b0; 
 				next = 1'b0;
 
@@ -220,6 +229,7 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				next_state = INIT;
 				new_count = 1'b0;
 				new_m_addr = 32'b0;
+				new_m_addr2 = 32'b0;
 				reset = 1'b0; 
 				next = 1'b0;
 
