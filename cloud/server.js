@@ -163,41 +163,12 @@ app.get("/file_list", (req, res) => {
 
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {
-	
-	// TO DO: PLAY SONG located on 'uploads/${req.query.name}.wav' on react app
-	// sound.play("uploads/${req.query.name}.wav");
-	// get a file from the uplaods folder
-	var tempSong = req.query.name;
-	sound.play(`uploads/${tempSong}.wav`).then((response) => console.log(tempSong));
 		
 	db.getSong("defaultUser", req.query.name).then((data) => {
 		res.send(JSON.stringify(data));
-		// sound.play("uploads/${req.query.name}.wav");
-		// console.log("inside get song data");
-		// var audio = new Audio('uploads/${req.query.name}.wav');
-		// audio.play();
-		// if(typeof Audio != "undefined") {
-		// 	// Browser-only code
-		// 	var audio = new Audio('uploads/${req.query.name}.wav');
-		// 	audio.play();
-		//   }
-
 	})
 });
 
-// app.get("/get_song_audio", (req, res) => {
-	
-// 	// TO DO: PLAY SONG located on 'uploads/${req.query.name}.wav' on react app
-// 	// sound.play("uploads/${req.query.name}.wav");
-// 	// get a file from the uplaods folder
-// 	var tempSong = req.query.name;
-// 	sound.play(`uploads/${tempSong}.wav`).then((response) => console.log(tempSong));
-		
-// 	db.getSong("defaultUser", req.query.name).then((data) => {
-// 		res.send(data);
-// 	})
-// });
-// console.log(path.join(__dirname, "uploads"));
 
 app.use("/get_audio_file", express.static(path.join(__dirname, "uploads")));
 
