@@ -2,10 +2,10 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Mar 15, 2023 1:06:53 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1678910813854</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>C:\Users\vishr\Desktop\UBC\CPEN391\module-2-vga\Quartus\software\vgavisualizer_bsp</BspGeneratedLocation>
-        <BspSettingsFile>settings.bsp</BspSettingsFile>
+        <BspGeneratedTimeStamp>30-Mar-2023 4:22:22 PM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1680218542461</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>D:\CPEN391\l2c-42-sava\FFT_VGA_combined\Quartus\software\combined_bsp</BspGeneratedLocation>
+        <BspSettingsFile>.\settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\vga_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_gen2_0</Cpu>
@@ -734,7 +734,7 @@
                 <SettingName>hal.enable_small_c_library</SettingName>
                 <Identifier>none</Identifier>
                 <Type>Boolean</Type>
-                <Value>0</Value>
+                <Value>1</Value>
                 <DefaultValue>0</DefaultValue>
                 <DestinationFile>public_mk_define</DestinationFile>
                 <Description>Causes the small newlib (C library) to be used. This reduces code and data footprint at the expense of reduced functionality. Several newlib features are removed such as floating-point support in printf(), stdin input routines, and buffered I/O. The small C library is not compatible with Micrium MicroC/OS-II. If true, adds -msmallc to ALT_LDFLAGS in public.mk.</Description>
@@ -899,6 +899,12 @@
                 <Group xsi:nil="true" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
         </Setting>
         <MemoryMap>
+                <slaveDescriptor>fft_accel_0</slaveDescriptor>
+                <addressRange>0x00000000 - 0x0000003F</addressRange>
+                <addressSpan>64</addressSpan>
+                <attributes/>
+        </MemoryMap>
+        <MemoryMap>
                 <slaveDescriptor>timer_0</slaveDescriptor>
                 <addressRange>0x00001000 - 0x0000101F</addressRange>
                 <addressSpan>32</addressSpan>
@@ -917,9 +923,21 @@
                 <attributes/>
         </MemoryMap>
         <MemoryMap>
-                <slaveDescriptor>onchip_memory2_0</slaveDescriptor>
-                <addressRange>0x00040000 - 0x0007FFFF</addressRange>
-                <addressSpan>262144</addressSpan>
+                <slaveDescriptor>ram_2</slaveDescriptor>
+                <addressRange>0x00006000 - 0x00006FFF</addressRange>
+                <addressSpan>4096</addressSpan>
+                <attributes>memory</attributes>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>ram_1</slaveDescriptor>
+                <addressRange>0x00007000 - 0x00007FFF</addressRange>
+                <addressSpan>4096</addressSpan>
+                <attributes>memory</attributes>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>ram_instr</slaveDescriptor>
+                <addressRange>0x00040000 - 0x00047FFF</addressRange>
+                <addressSpan>32768</addressSpan>
                 <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
@@ -930,7 +948,7 @@
         </MemoryMap>
         <LinkerSection>
                 <sectionName>.text</sectionName>
-                <regionName>onchip_memory2_0</regionName>
+                <regionName>ram_instr</regionName>
         </LinkerSection>
         <LinkerSection>
                 <sectionName>.rodata</sectionName>

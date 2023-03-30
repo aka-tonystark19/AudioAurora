@@ -16,19 +16,19 @@
 <td width="20%" bgcolor="#77BBFF">CPU:</td><td>nios2_gen2_0</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Settings File:</td><td>settings.bsp</td>
+<td width="20%" bgcolor="#77BBFF">BSP Settings File:</td><td>.\settings.bsp</td>
 </tr>
 <tr mode="wrap">
 <td width="20%" bgcolor="#77BBFF">BSP Version:</td><td>default</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>Mar 15, 2023 1:06:53 PM</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated On:</td><td>30-Mar-2023 4:22:22 PM</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1678910813854</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated Timestamp:</td><td>1680218542461</td>
 </tr>
 <tr mode="wrap">
-<td width="20%" bgcolor="#77BBFF">BSP Generated Location:</td><td>C:\Users\vishr\Desktop\UBC\CPEN391\module-2-vga\Quartus\software\vgavisualizer_bsp</td>
+<td width="20%" bgcolor="#77BBFF">BSP Generated Location:</td><td>D:\CPEN391\l2c-42-sava\FFT_VGA_combined\Quartus\software\combined_bsp</td>
 </tr>
 </table>
 <br>
@@ -41,7 +41,13 @@
 <td>new_sdram_controller_0</td><td>0x08000000 - 0x0BFFFFFF</td><td>67108864</td><td class="listing">memory</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>onchip_memory2_0</td><td>0x00040000 - 0x0007FFFF</td><td>262144</td><td class="listing">memory</td>
+<td>ram_instr</td><td>0x00040000 - 0x00047FFF</td><td>32768</td><td class="listing">memory</td>
+</tr>
+<tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
+<td>ram_1</td><td>0x00007000 - 0x00007FFF</td><td>4096</td><td class="listing">memory</td>
+</tr>
+<tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
+<td>ram_2</td><td>0x00006000 - 0x00006FFF</td><td>4096</td><td class="listing">memory</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
 <td>vga_integrate_0</td><td>0x00001040 - 0x0000105F</td><td>32</td><td class="listing">&nbsp;</td>
@@ -51,6 +57,9 @@
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
 <td>timer_0</td><td>0x00001000 - 0x0000101F</td><td>32</td><td class="listing">timer</td>
+</tr>
+<tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
+<td>fft_accel_0</td><td>0x00000000 - 0x0000003F</td><td>64</td><td class="listing">&nbsp;</td>
 </tr>
 </table>
 <br>
@@ -69,7 +78,7 @@
 <th align="left" width="50%">Section</th><th align="left" width="50%">Region</th>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
-<td>.text</td><td>onchip_memory2_0</td>
+<td>.text</td><td>ram_instr</td>
 </tr>
 <tr mode="wrap" STYLE="display: 'block'; font-family: 'courier'; color: '#000000'; font-weight: '500'; font-size: '14'; margin-top: '10pt'; text-align: 'left'">
 <td>.rodata</td><td>new_sdram_controller_0</td>
@@ -450,7 +459,7 @@
 <td width="20%">Default Value:</td><td>0</td>
 </tr>
 <tr>
-<td width="20%">Value:</td><td>0</td>
+<td width="20%">Value:</td><td>1</td>
 </tr>
 <tr>
 <td width="20%">Type:</td><td>Boolean</td>

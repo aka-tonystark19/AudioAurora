@@ -18,7 +18,8 @@
 			vga_vga_grn         : out   std_logic_vector(7 downto 0);                     -- vga_grn
 			vga_vga_hsync       : out   std_logic;                                        -- vga_hsync
 			vga_vga_red         : out   std_logic_vector(7 downto 0);                     -- vga_red
-			vga_vga_vsync       : out   std_logic                                         -- vga_vsync
+			vga_vga_vsync       : out   std_logic;                                        -- vga_vsync
+			lights_readdata     : out   std_logic_vector(8 downto 0)                      -- readdata
 		);
 	end component vga_system;
 
@@ -42,6 +43,7 @@
 			vga_vga_grn         => CONNECTED_TO_vga_vga_grn,         --              .vga_grn
 			vga_vga_hsync       => CONNECTED_TO_vga_vga_hsync,       --              .vga_hsync
 			vga_vga_red         => CONNECTED_TO_vga_vga_red,         --              .vga_red
-			vga_vga_vsync       => CONNECTED_TO_vga_vga_vsync        --              .vga_vsync
+			vga_vga_vsync       => CONNECTED_TO_vga_vga_vsync,       --              .vga_vsync
+			lights_readdata     => CONNECTED_TO_lights_readdata      --        lights.readdata
 		);
 

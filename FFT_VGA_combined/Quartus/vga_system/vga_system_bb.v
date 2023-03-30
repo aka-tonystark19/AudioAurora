@@ -18,7 +18,8 @@ module vga_system (
 	vga_vga_grn,
 	vga_vga_hsync,
 	vga_vga_red,
-	vga_vga_vsync);	
+	vga_vga_vsync,
+	lights_readdata);	
 
 	input		clk_clk;
 	output		pll_0_locked_export;
@@ -39,4 +40,5 @@ module vga_system (
 	output		vga_vga_hsync;
 	output	[7:0]	vga_vga_red;
 	output		vga_vga_vsync;
+	output	[8:0]	lights_readdata;
 endmodule

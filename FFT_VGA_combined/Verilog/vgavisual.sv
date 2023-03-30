@@ -22,13 +22,11 @@ module vgavisual (
     output logic DRAM_LDQM
 );
 
-    assign LEDR[7:0] = 8'b00000101;
-
 	vga_system u0 (
 		.clk_clk             (CLOCK_50),                //           clk.clk
 		.reset_reset_n       (KEY[3]),                  //         reset.reset_n
 		.pll_0_outclk1_clk   (DRAM_CLK),                // pll_0_outclk1.clk
-		.pll_0_locked_export (LEDR[9]),                 //  pll_0_locked.export
+		.pll_0_locked_export (LEDR[0]),                 //  pll_0_locked.export
 		.sdram_addr          (DRAM_ADDR),               //         sdram.addr
 		.sdram_ba            (DRAM_BA),                 //              .ba
 		.sdram_cas_n         (DRAM_CAS_N),              //              .cas_n
@@ -43,7 +41,8 @@ module vgavisual (
 		.vga_vga_grn         (VGA_G),                   //              .vga_grn
 		.vga_vga_hsync       (VGA_HS),                  //              .vga_hsync
 		.vga_vga_red         (VGA_R),                   //              .vga_red
-		.vga_vga_vsync       (VGA_VS)                   //              .vga_vsync
+		.vga_vga_vsync       (VGA_VS),                  //              .vga_vsync
+        .lights_readdata     (LEDR[9:1])                //        lights.readdata
 	);
 
 

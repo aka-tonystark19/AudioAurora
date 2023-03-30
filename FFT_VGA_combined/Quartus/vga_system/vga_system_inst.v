@@ -17,6 +17,7 @@
 		.vga_vga_grn         (<connected-to-vga_vga_grn>),         //              .vga_grn
 		.vga_vga_hsync       (<connected-to-vga_vga_hsync>),       //              .vga_hsync
 		.vga_vga_red         (<connected-to-vga_vga_red>),         //              .vga_red
-		.vga_vga_vsync       (<connected-to-vga_vga_vsync>)        //              .vga_vsync
+		.vga_vga_vsync       (<connected-to-vga_vga_vsync>),       //              .vga_vsync
+		.lights_readdata     (<connected-to-lights_readdata>)      //        lights.readdata
 	);
 

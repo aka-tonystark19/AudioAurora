@@ -17,7 +17,7 @@ const host = 'localhost';
 const port = 8000;
 let db = new Database("mongodb://0.0.0.0:27017", "SongDB");
 
-let AUDIO_API = '41693fd1726e50e10211848a6b4b46cf';
+let AUDIO_API = '0bf1edd22b592bdc7cbbe9e37fa37c0e';
 let MUSIC_API = '0d677468618ecf74a7748aa122362c5f';
 
 // Purpose: Defines the multer specifications for the file upload. It specifies the destination and the name of the file
@@ -25,7 +25,7 @@ let MUSIC_API = '0d677468618ecf74a7748aa122362c5f';
 const upload = multer({
 	storage: multer.diskStorage({
 		// TO DO: change adress to be user specific	
-		destination: (req, file, cb) => { cb(null, 'tmp/') },
+		destination: (req, file, cb) => { cb(null, 'play/') },
 		filename: (req, file, cb) => { cb(null, `${req.body.name}.mp3`) }
 	})
 });
@@ -36,22 +36,16 @@ const upload = multer({
 const convertType = (name) => {
 
 	return new Promise((resolve, reject) => {
-		ffmpeg(`tmp/${name}.mp3`)
-			.audioCodec('pcm_s16le')
-			.audioFrequency(8000)
-			.audioChannels(1)
-			.audioBitrate('32k')
-			.outputOptions('-compression_level 12')
-			.toFormat('wav')
-			.output(`uploads/${name}.wav`)
-			.on('end', () => {
-				fs.unlink(`tmp/${name}.mp3`, (err) => {
-					if (err) console.log(err);
-				});
-
-				resolve();
-			})
-			.run()
+		ffmpeg(`play/${name}.mp3`)
+		.audioCodec('pcm_s16le')
+		.audioFrequency(4000)
+		.audioChannels(1)
+		.audioBitrate('32k')
+		.outputOptions('-compression_level 12')
+		.toFormat('wav')
+		.output(`uploads/${name}.wav`)
+		.on('end', () => resolve)
+		.run()
 	})
 
 
@@ -64,10 +58,8 @@ const trimSong = async (name, seconds) => {
 	return new Promise((resolve, reject) => {
 		ffmpeg(`uploads/${name}`)
 		.inputOption(`-t ${seconds}`)
-		.output(`tmp/${name}`)
-		.on('end', () => {
-			resolve(`tmp/${name}`)
-		})
+		.output(`play/${name}`)
+		.on('end', () => resolve(`play/${name}`))
 		.run();
 	})
 }
@@ -155,7 +147,6 @@ app.post("/upload_files", upload.single("file"), (req, res) => {
 
 // GET Request to get the list of files in the uploads folder
 app.get("/file_list", (req, res) => {
-	// make database quey to get fiellist
 	db.getSongList("defaultUser").then((data) => {
 		res.send(JSON.stringify(data));
 	})
@@ -163,14 +154,14 @@ app.get("/file_list", (req, res) => {
 
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {
-		
 	db.getSong("defaultUser", req.query.name).then((data) => {
 		res.send(JSON.stringify(data));
 	})
 });
 
 
-app.use("/get_audio_file", express.static(path.join(__dirname, "uploads")));
+// Play Song
+app.use("/get_audio_file", express.static(path.join(__dirname, "play")));
 
 
 // Runs the server

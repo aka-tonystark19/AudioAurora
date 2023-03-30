@@ -139,7 +139,7 @@ ACDS_VERSION := 18.1
 # Define path to the application ELF. 
 # It may be used by the makefile fragments so is defined before including them. 
 # 
-ELF := vgavisualizer.elf
+ELF := combined.elf
 
 # Paths to C, C++, and assembly source files.
 C_SRCS := hello_world_small.c
@@ -177,7 +177,7 @@ CRT0 :=
 SYS_LIB :=
 
 # Define path to the root of the BSP.
-BSP_ROOT_DIR := ../vgavisualizer_bsp/
+BSP_ROOT_DIR := ../combined_bsp/
 
 # List of application specific include directories, library directories and library names
 APP_INCLUDE_DIRS :=

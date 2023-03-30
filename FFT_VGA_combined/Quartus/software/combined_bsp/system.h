@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'vga_system'
  * SOPC Builder design path: ../../vga_system.sopcinfo
  *
- * Generated: Wed Mar 15 13:06:55 PDT 2023
+ * Generated: Thu Mar 30 16:22:23 PDT 2023
  */
 
 /*
@@ -138,6 +138,7 @@
 #define __ALTERA_AVALON_ONCHIP_MEMORY2
 #define __ALTERA_AVALON_TIMER
 #define __ALTERA_NIOS2_GEN2
+#define __FFT_ACCEL
 #define __VGA_INTEGRATE
 
 
@@ -175,6 +176,20 @@
 #define ALT_STDOUT_PRESENT
 #define ALT_STDOUT_TYPE "altera_avalon_jtag_uart"
 #define ALT_SYSTEM_NAME "vga_system"
+
+
+/*
+ * fft_accel_0 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_fft_accel_0 fft_accel
+#define FFT_ACCEL_0_BASE 0x0
+#define FFT_ACCEL_0_IRQ -1
+#define FFT_ACCEL_0_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define FFT_ACCEL_0_NAME "/dev/fft_accel_0"
+#define FFT_ACCEL_0_SPAN 64
+#define FFT_ACCEL_0_TYPE "fft_accel"
 
 
 /*
@@ -246,32 +261,90 @@
 
 
 /*
- * onchip_memory2_0 configuration
+ * ram_1 configuration
  *
  */
 
-#define ALT_MODULE_CLASS_onchip_memory2_0 altera_avalon_onchip_memory2
-#define ONCHIP_MEMORY2_0_ALLOW_IN_SYSTEM_MEMORY_CONTENT_EDITOR 0
-#define ONCHIP_MEMORY2_0_ALLOW_MRAM_SIM_CONTENTS_ONLY_FILE 0
-#define ONCHIP_MEMORY2_0_BASE 0x40000
-#define ONCHIP_MEMORY2_0_CONTENTS_INFO ""
-#define ONCHIP_MEMORY2_0_DUAL_PORT 0
-#define ONCHIP_MEMORY2_0_GUI_RAM_BLOCK_TYPE "AUTO"
-#define ONCHIP_MEMORY2_0_INIT_CONTENTS_FILE "vga_system_onchip_memory2_0"
-#define ONCHIP_MEMORY2_0_INIT_MEM_CONTENT 1
-#define ONCHIP_MEMORY2_0_INSTANCE_ID "NONE"
-#define ONCHIP_MEMORY2_0_IRQ -1
-#define ONCHIP_MEMORY2_0_IRQ_INTERRUPT_CONTROLLER_ID -1
-#define ONCHIP_MEMORY2_0_NAME "/dev/onchip_memory2_0"
-#define ONCHIP_MEMORY2_0_NON_DEFAULT_INIT_FILE_ENABLED 0
-#define ONCHIP_MEMORY2_0_RAM_BLOCK_TYPE "AUTO"
-#define ONCHIP_MEMORY2_0_READ_DURING_WRITE_MODE "DONT_CARE"
-#define ONCHIP_MEMORY2_0_SINGLE_CLOCK_OP 0
-#define ONCHIP_MEMORY2_0_SIZE_MULTIPLE 1
-#define ONCHIP_MEMORY2_0_SIZE_VALUE 262144
-#define ONCHIP_MEMORY2_0_SPAN 262144
-#define ONCHIP_MEMORY2_0_TYPE "altera_avalon_onchip_memory2"
-#define ONCHIP_MEMORY2_0_WRITABLE 1
+#define ALT_MODULE_CLASS_ram_1 altera_avalon_onchip_memory2
+#define RAM_1_ALLOW_IN_SYSTEM_MEMORY_CONTENT_EDITOR 0
+#define RAM_1_ALLOW_MRAM_SIM_CONTENTS_ONLY_FILE 0
+#define RAM_1_BASE 0x7000
+#define RAM_1_CONTENTS_INFO ""
+#define RAM_1_DUAL_PORT 0
+#define RAM_1_GUI_RAM_BLOCK_TYPE "AUTO"
+#define RAM_1_INIT_CONTENTS_FILE "vga_system_ram_1"
+#define RAM_1_INIT_MEM_CONTENT 1
+#define RAM_1_INSTANCE_ID "NONE"
+#define RAM_1_IRQ -1
+#define RAM_1_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define RAM_1_NAME "/dev/ram_1"
+#define RAM_1_NON_DEFAULT_INIT_FILE_ENABLED 0
+#define RAM_1_RAM_BLOCK_TYPE "AUTO"
+#define RAM_1_READ_DURING_WRITE_MODE "DONT_CARE"
+#define RAM_1_SINGLE_CLOCK_OP 0
+#define RAM_1_SIZE_MULTIPLE 1
+#define RAM_1_SIZE_VALUE 4096
+#define RAM_1_SPAN 4096
+#define RAM_1_TYPE "altera_avalon_onchip_memory2"
+#define RAM_1_WRITABLE 1
+
+
+/*
+ * ram_2 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_ram_2 altera_avalon_onchip_memory2
+#define RAM_2_ALLOW_IN_SYSTEM_MEMORY_CONTENT_EDITOR 0
+#define RAM_2_ALLOW_MRAM_SIM_CONTENTS_ONLY_FILE 0
+#define RAM_2_BASE 0x6000
+#define RAM_2_CONTENTS_INFO ""
+#define RAM_2_DUAL_PORT 0
+#define RAM_2_GUI_RAM_BLOCK_TYPE "AUTO"
+#define RAM_2_INIT_CONTENTS_FILE "vga_system_ram_2"
+#define RAM_2_INIT_MEM_CONTENT 1
+#define RAM_2_INSTANCE_ID "NONE"
+#define RAM_2_IRQ -1
+#define RAM_2_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define RAM_2_NAME "/dev/ram_2"
+#define RAM_2_NON_DEFAULT_INIT_FILE_ENABLED 0
+#define RAM_2_RAM_BLOCK_TYPE "AUTO"
+#define RAM_2_READ_DURING_WRITE_MODE "DONT_CARE"
+#define RAM_2_SINGLE_CLOCK_OP 0
+#define RAM_2_SIZE_MULTIPLE 1
+#define RAM_2_SIZE_VALUE 4096
+#define RAM_2_SPAN 4096
+#define RAM_2_TYPE "altera_avalon_onchip_memory2"
+#define RAM_2_WRITABLE 1
+
+
+/*
+ * ram_instr configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_ram_instr altera_avalon_onchip_memory2
+#define RAM_INSTR_ALLOW_IN_SYSTEM_MEMORY_CONTENT_EDITOR 0
+#define RAM_INSTR_ALLOW_MRAM_SIM_CONTENTS_ONLY_FILE 0
+#define RAM_INSTR_BASE 0x40000
+#define RAM_INSTR_CONTENTS_INFO ""
+#define RAM_INSTR_DUAL_PORT 0
+#define RAM_INSTR_GUI_RAM_BLOCK_TYPE "AUTO"
+#define RAM_INSTR_INIT_CONTENTS_FILE "vga_system_ram_instr"
+#define RAM_INSTR_INIT_MEM_CONTENT 1
+#define RAM_INSTR_INSTANCE_ID "NONE"
+#define RAM_INSTR_IRQ -1
+#define RAM_INSTR_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define RAM_INSTR_NAME "/dev/ram_instr"
+#define RAM_INSTR_NON_DEFAULT_INIT_FILE_ENABLED 0
+#define RAM_INSTR_RAM_BLOCK_TYPE "AUTO"
+#define RAM_INSTR_READ_DURING_WRITE_MODE "DONT_CARE"
+#define RAM_INSTR_SINGLE_CLOCK_OP 0
+#define RAM_INSTR_SIZE_MULTIPLE 1
+#define RAM_INSTR_SIZE_VALUE 32768
+#define RAM_INSTR_SPAN 32768
+#define RAM_INSTR_TYPE "altera_avalon_onchip_memory2"
+#define RAM_INSTR_WRITABLE 1
 
 
 /*
