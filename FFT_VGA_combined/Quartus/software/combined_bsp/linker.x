@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'vga_system'
  * SOPC Builder design path: ../../vga_system.sopcinfo
  *
- * Generated: Tue Mar 07 11:36:30 PST 2023
+ * Generated: Thu Mar 30 16:22:23 PDT 2023
  */
 
 /*
@@ -50,13 +50,17 @@
 
 MEMORY
 {
+    ram_2 : ORIGIN = 0x6000, LENGTH = 4096
+    ram_1 : ORIGIN = 0x7000, LENGTH = 4096
     reset : ORIGIN = 0x40000, LENGTH = 32
-    onchip_memory2_0 : ORIGIN = 0x40020, LENGTH = 262112
+    ram_instr : ORIGIN = 0x40020, LENGTH = 32736
     new_sdram_controller_0 : ORIGIN = 0x8000000, LENGTH = 67108864
 }
 
 /* Define symbols for each memory base-address */
-__alt_mem_onchip_memory2_0 = 0x40000;
+__alt_mem_ram_2 = 0x6000;
+__alt_mem_ram_1 = 0x7000;
+__alt_mem_ram_instr = 0x40000;
 __alt_mem_new_sdram_controller_0 = 0x8000000;
 
 OUTPUT_FORMAT( "elf32-littlenios2",
@@ -113,7 +117,7 @@ SECTIONS
         KEEP (*(.exceptions.exit));
         KEEP (*(.exceptions));
         PROVIDE (__ram_exceptions_end = ABSOLUTE(.));
-    } > onchip_memory2_0
+    } > ram_instr
 
     PROVIDE (__flash_exceptions_start = LOADADDR(.exceptions));
 
@@ -209,7 +213,7 @@ SECTIONS
         PROVIDE (__DTOR_END__ = ABSOLUTE(.));
         KEEP (*(.jcr))
         . = ALIGN(4);
-    } > onchip_memory2_0 = 0x3a880100 /* NOP instruction (always in big-endian byte ordering) */
+    } > ram_instr = 0x3a880100 /* NOP instruction (always in big-endian byte ordering) */
 
     /*
      *
@@ -305,15 +309,15 @@ SECTIONS
      *
      */
 
-    .onchip_memory2_0 LOADADDR (.rwdata) + SIZEOF (.rwdata) : AT ( LOADADDR (.rwdata) + SIZEOF (.rwdata) )
+    .ram_2 : AT ( LOADADDR (.rwdata) + SIZEOF (.rwdata) )
     {
-        PROVIDE (_alt_partition_onchip_memory2_0_start = ABSOLUTE(.));
-        *(.onchip_memory2_0 .onchip_memory2_0. onchip_memory2_0.*)
+        PROVIDE (_alt_partition_ram_2_start = ABSOLUTE(.));
+        *(.ram_2 .ram_2. ram_2.*)
         . = ALIGN(4);
-        PROVIDE (_alt_partition_onchip_memory2_0_end = ABSOLUTE(.));
-    } > onchip_memory2_0
+        PROVIDE (_alt_partition_ram_2_end = ABSOLUTE(.));
+    } > ram_2
 
-    PROVIDE (_alt_partition_onchip_memory2_0_load_addr = LOADADDR(.onchip_memory2_0));
+    PROVIDE (_alt_partition_ram_2_load_addr = LOADADDR(.ram_2));
 
     /*
      *
@@ -322,7 +326,41 @@ SECTIONS
      *
      */
 
-    .new_sdram_controller_0 : AT ( LOADADDR (.onchip_memory2_0) + SIZEOF (.onchip_memory2_0) )
+    .ram_1 : AT ( LOADADDR (.ram_2) + SIZEOF (.ram_2) )
+    {
+        PROVIDE (_alt_partition_ram_1_start = ABSOLUTE(.));
+        *(.ram_1 .ram_1. ram_1.*)
+        . = ALIGN(4);
+        PROVIDE (_alt_partition_ram_1_end = ABSOLUTE(.));
+    } > ram_1
+
+    PROVIDE (_alt_partition_ram_1_load_addr = LOADADDR(.ram_1));
+
+    /*
+     *
+     * This section's LMA is set to the .text region.
+     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
+     *
+     */
+
+    .ram_instr LOADADDR (.ram_1) + SIZEOF (.ram_1) : AT ( LOADADDR (.ram_1) + SIZEOF (.ram_1) )
+    {
+        PROVIDE (_alt_partition_ram_instr_start = ABSOLUTE(.));
+        *(.ram_instr .ram_instr. ram_instr.*)
+        . = ALIGN(4);
+        PROVIDE (_alt_partition_ram_instr_end = ABSOLUTE(.));
+    } > ram_instr
+
+    PROVIDE (_alt_partition_ram_instr_load_addr = LOADADDR(.ram_instr));
+
+    /*
+     *
+     * This section's LMA is set to the .text region.
+     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
+     *
+     */
+
+    .new_sdram_controller_0 : AT ( LOADADDR (.ram_instr) + SIZEOF (.ram_instr) )
     {
         PROVIDE (_alt_partition_new_sdram_controller_0_start = ABSOLUTE(.));
         *(.new_sdram_controller_0 .new_sdram_controller_0. new_sdram_controller_0.*)

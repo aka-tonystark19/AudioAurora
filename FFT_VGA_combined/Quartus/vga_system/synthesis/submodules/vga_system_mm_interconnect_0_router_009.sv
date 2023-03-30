@@ -42,21 +42,21 @@
 
 `timescale 1 ns / 1 ns
 
-module vga_system_mm_interconnect_0_router_default_decode
+module vga_system_mm_interconnect_0_router_009_default_decode
   #(
      parameter DEFAULT_CHANNEL = 0,
                DEFAULT_WR_CHANNEL = -1,
                DEFAULT_RD_CHANNEL = -1,
-               DEFAULT_DESTID = 4 
+               DEFAULT_DESTID = 2 
    )
-  (output [96 - 93 : 0] default_destination_id,
+  (output [78 - 75 : 0] default_destination_id,
    output [9-1 : 0] default_wr_channel,
    output [9-1 : 0] default_rd_channel,
    output [9-1 : 0] default_src_channel
   );
 
   assign default_destination_id = 
-    DEFAULT_DESTID[96 - 93 : 0];
+    DEFAULT_DESTID[78 - 75 : 0];
 
   generate
     if (DEFAULT_CHANNEL == -1) begin : no_default_channel_assignment
@@ -81,7 +81,7 @@ module vga_system_mm_interconnect_0_router_default_decode
 endmodule
 
 
-module vga_system_mm_interconnect_0_router
+module vga_system_mm_interconnect_0_router_009
 (
     // -------------------
     // Clock & Reset
@@ -93,7 +93,7 @@ module vga_system_mm_interconnect_0_router
     // Command Sink (Input)
     // -------------------
     input                       sink_valid,
-    input  [110-1 : 0]    sink_data,
+    input  [92-1 : 0]    sink_data,
     input                       sink_startofpacket,
     input                       sink_endofpacket,
     output                      sink_ready,
@@ -102,7 +102,7 @@ module vga_system_mm_interconnect_0_router
     // Command Source (Output)
     // -------------------
     output                          src_valid,
-    output reg [110-1    : 0] src_data,
+    output reg [92-1    : 0] src_data,
     output reg [9-1 : 0] src_channel,
     output                          src_startofpacket,
     output                          src_endofpacket,
@@ -112,18 +112,18 @@ module vga_system_mm_interconnect_0_router
     // -------------------------------------------------------
     // Local parameters and variables
     // -------------------------------------------------------
-    localparam PKT_ADDR_H = 67;
-    localparam PKT_ADDR_L = 36;
-    localparam PKT_DEST_ID_H = 96;
-    localparam PKT_DEST_ID_L = 93;
-    localparam PKT_PROTECTION_H = 100;
-    localparam PKT_PROTECTION_L = 98;
-    localparam ST_DATA_W = 110;
+    localparam PKT_ADDR_H = 49;
+    localparam PKT_ADDR_L = 18;
+    localparam PKT_DEST_ID_H = 78;
+    localparam PKT_DEST_ID_L = 75;
+    localparam PKT_PROTECTION_H = 82;
+    localparam PKT_PROTECTION_L = 80;
+    localparam ST_DATA_W = 92;
     localparam ST_CHANNEL_W = 9;
-    localparam DECODER_TYPE = 0;
+    localparam DECODER_TYPE = 1;
 
-    localparam PKT_TRANS_WRITE = 70;
-    localparam PKT_TRANS_READ  = 71;
+    localparam PKT_TRANS_WRITE = 52;
+    localparam PKT_TRANS_READ  = 53;
 
     localparam PKT_ADDR_W = PKT_ADDR_H-PKT_ADDR_L + 1;
     localparam PKT_DEST_ID_W = PKT_DEST_ID_H-PKT_DEST_ID_L + 1;
@@ -134,13 +134,12 @@ module vga_system_mm_interconnect_0_router
     // Figure out the number of bits to mask off for each slave span
     // during address decoding
     // -------------------------------------------------------
-    localparam PAD0 = log2ceil(64'h8000 - 64'h7000); 
     // -------------------------------------------------------
     // Work out which address bits are significant based on the
     // address range of the slaves. If the required width is too
     // large or too small, we use the address field width instead.
     // -------------------------------------------------------
-    localparam ADDR_RANGE = 64'h8000;
+    localparam ADDR_RANGE = 64'h0;
     localparam RANGE_ADDR_WIDTH = log2ceil(ADDR_RANGE);
     localparam OPTIMIZED_ADDR_H = (RANGE_ADDR_WIDTH > PKT_ADDR_W) ||
                                   (RANGE_ADDR_WIDTH == 0) ?
@@ -150,6 +149,7 @@ module vga_system_mm_interconnect_0_router
     localparam RG = RANGE_ADDR_WIDTH;
     localparam REAL_ADDRESS_RANGE = OPTIMIZED_ADDR_H - PKT_ADDR_L;
 
+    reg [PKT_DEST_ID_W-1 : 0] destid;
 
     // -------------------------------------------------------
     // Pass almost everything through, untouched
@@ -158,7 +158,6 @@ module vga_system_mm_interconnect_0_router
     assign src_valid         = sink_valid;
     assign src_startofpacket = sink_startofpacket;
     assign src_endofpacket   = sink_endofpacket;
-    wire [PKT_DEST_ID_W-1:0] default_destid;
     wire [9-1 : 0] default_src_channel;
 
 
@@ -166,8 +165,8 @@ module vga_system_mm_interconnect_0_router
 
 
 
-    vga_system_mm_interconnect_0_router_default_decode the_default_decode(
-      .default_destination_id (default_destid),
+    vga_system_mm_interconnect_0_router_009_default_decode the_default_decode(
+      .default_destination_id (),
       .default_wr_channel   (),
       .default_rd_channel   (),
       .default_src_channel  (default_src_channel)
@@ -176,19 +175,19 @@ module vga_system_mm_interconnect_0_router
     always @* begin
         src_data    = sink_data;
         src_channel = default_src_channel;
-        src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = default_destid;
 
         // --------------------------------------------------
-        // Address Decoder
-        // Sets the channel and destination ID based on the address
+        // DestinationID Decoder
+        // Sets the channel based on the destination ID.
         // --------------------------------------------------
-           
-         
-          // ( 7000 .. 8000 )
-          src_channel = 9'b1;
-          src_data[PKT_DEST_ID_H:PKT_DEST_ID_L] = 4;
-	     
-        
+        destid      = sink_data[PKT_DEST_ID_H : PKT_DEST_ID_L];
+
+
+
+        if (destid == 2 ) begin
+            src_channel = 9'b1;
+        end
+
 
 end
 

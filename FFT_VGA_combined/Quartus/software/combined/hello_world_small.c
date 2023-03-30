@@ -9,7 +9,7 @@
 #include <sys/time.h>
 
 typedef double complex cplx;
-#define N 32
+#define N 1024
 
 // Hardware timer functions
 void init_isr(void);
@@ -18,21 +18,14 @@ static void vert_time_isr(void * context, alt_u32 id);
 
 // Running fft calculation to frequency recurrence
 void runfft(int index);
+int callfft(void);
 
 // Updating one frame on vga
 void runvga(int change);
 
-//FFT code sampled from https://rosettacode.org/wiki/Fast_Fourier_transform
-void fft(cplx buf[], int n);
-void fft_helper(cplx buf[], cplx out[], int n, int step);
-void printcplxArr(cplx arr[], int size);
-
 // Global variables in system
-int real[N];
-int imag[N];
 unsigned int magn[N];
 unsigned int freq[N];
-cplx output[N];
 
 // Array to store the color values of the pixels
 unsigned char image[160][120];
@@ -4233,56 +4226,28 @@ static void vert_time_isr(void * context, alt_u32 id){
 	IOWR_ALTERA_AVALON_TIMER_STATUS(TIMER_0_BASE, 0);
 	progress++;
 	if (progress % 20 == 0) {
-		runfft((int)(progress/20));
+		runfft(N*((int)(progress/20)));
 	} else {
 		runvga(progress%20);
-	}
-}
-
-void fft(cplx buf[], int n)
-{
-	cplx out[n];
-	for (int i = 0; i < n; i++){
-		out[i] = buf[i];
-	}
-	fft_helper(buf, out, N, 1);
-}
-
-void fft_helper(cplx buf[], cplx out[], int n, int step)
-{
-	if (step < n) {
-		fft_helper(out, buf, n, step * 2);
-		fft_helper(out + step, buf + step, n, step * 2);
-
-		for (int i = 0; i < n; i += 2 * step) {
-			cplx t = cexp(-I * M_PI * i / n) * out[i + step];
-			buf[i / 2]     = out[i] + t;
-			buf[(i + n)/2] = out[i] - t;
-		}
-	}
-}
-
-// Convert fft output to magnitude of frequencies
-void printcplxArr(cplx arr[], int size){
-	for (int i = 0; i < size; i++){
-		if (!cimag(arr[i])) {
-			real[i] = (int) creal(arr[i]);
-			imag[i] = 0;
-		} else {
-			real[i] = (int) creal(arr[i]);
-			imag[i] = (int) cimag(arr[i]);
-		}
-
-		magn[i] = (real[i]*real[i] + imag[i]*imag[i]);
-		freq[i] = i * 11025 / N;
 	}
 }
 
 // Run one instance of the fft calculation
 void runfft(int index) {
 	// Copy data being processed
-	for (int i = index; i < N+index; i++) {
-		output[i] = data[i];
+	volatile unsigned *curr_base_1 = RAM_1_BASE;
+	volatile unsigned *curr_base_2 = RAM_2_BASE;
+	//save the array to mem
+	for(int i = index; i < index + N/2; i+=2){
+		*curr_base_1 = data[i];		//save to memory
+  		*curr_base_2 = data[i+1];
+
+		curr_base_1 = (int*)curr_base_1 +1 ;	//increment
+  		curr_base_2 = (int*)curr_base_2 +1 ;
+	}
+
+	for (int i = 0; i < N; i++){
+		freq[i] = i * 11025 / N;
 	}
 	// Reset recurrent frequency data
 	for (int i = 0; i < 20; i++) {
@@ -4290,9 +4255,17 @@ void runfft(int index) {
 	}
 
 	// FFT and frequency magnitude calculation
-	fft(output, N);
-	printcplxArr(output, N);
+	int num = callfft();
+	//save to array (magnitude)
+	curr_base_1 = RAM_1_BASE;
+	curr_base_2 = RAM_2_BASE;
+	for(int i = 0; i < N/2; i+=2){
+		magn[i] = *curr_base_1;		//save to array
+		magn[i+1] = *curr_base_2;
+  		curr_base_1 = (int*)curr_base_1 +1 ;	//increment
+		curr_base_2 = (int*)curr_base_2 +1 ;
 
+	}
 	// Sort frequency and magnitude arrays
 	// Currently O(n^2) --> Change to O(nlogn)
 	for (int i = 0; i < N; i++) {
@@ -4310,7 +4283,7 @@ void runfft(int index) {
 	}
 
 	// Update the most recurrent frequencies
-	for (int i = N; i >= N-30; i--) {
+	for (int i = N; i >= N-40; i--) {
 		for (int j = 0; j < 20; j++) {
 			if ((signed int)(rangeFreq[j]-freq[i]) > 0) {
 				occurFreq[j]++;
@@ -4355,4 +4328,12 @@ void runvga(int change) {
 				}
 			}
 		}
+}
+
+int callfft(void) {
+	volatile unsigned *fft_magic = FFT_ACCEL_0_BASE;
+	*fft_magic = 0;
+	alt_putstr("FFT started\n");
+	//while(1); //testing something
+	return *fft_magic;
 }
