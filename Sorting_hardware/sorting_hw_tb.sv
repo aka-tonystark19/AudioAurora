@@ -6,7 +6,7 @@ module sorting_hw_tb();
     logic slave_waitrequest, slave_read, slave_write;
     logic [31:0] slave_address, slave_readdata, slave_writedata;
     logic [31:0] master_address, master_readdata, master_writedata;
-    logic master_read, master_write;
+    logic master_read, master_write, master_waitrequest, master_readdatavalid;
     logic [9:1] LEDR;
 
     enum{INIT, LOAD1, LOAD2, CMP, SWITCH, SWITCH2, DONE} state;
@@ -18,8 +18,10 @@ module sorting_hw_tb();
                 slave_read, slave_readdata,
                 slave_write, slave_writedata,
                 // master (SDRAM-facing)
+                master_waitrequest,
                 master_address, //the address I want to read or write to
                 master_read, master_readdata, //assert if i want to read or write
+                master_readdatavalid,
                 master_write, master_writedata, LEDR);
 
     initial begin
@@ -66,12 +68,13 @@ module sorting_hw_tb();
             $display("Error: state is not SWITCH2");
             $stop;
         end
-        @ (posedge DUT.state or negedge DUT.state);
+        `clk_cycle;
+        `clk_cycle;
         if(DUT.state != LOAD1)begin
             $display("Error: state is not LOAD1");
             $stop;
         end
-        $stop;
+        //$stop;
 
     end
 
