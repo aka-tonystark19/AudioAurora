@@ -1,10 +1,7 @@
 import React, {useState, useEffect}  from "react";
 import Select from 'react-select';
-import ReactAudioPlayer from 'react-audio-player';
 
 import './songSelectForm.css';
-
-// const sound = require("sound-play");
 
 function SongSelectForm ({fileList}) {
 

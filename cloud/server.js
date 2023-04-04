@@ -5,11 +5,9 @@ const express = require('express');
 const multer = require("multer");
 const axios = require('axios');
 const net = require('net');
-const sound = require("sound-play");
 const Database = require('./Database.js');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
-// const node-aplay = require('node-aplay');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 // Paths Used by the server
@@ -44,7 +42,7 @@ const convertType = (name) => {
 		.outputOptions('-compression_level 12')
 		.toFormat('wav')
 		.output(`uploads/${name}.wav`)
-		.on('end', () => resolve)
+		.on('end', () => resolve())
 		.run()
 	})
 
@@ -58,8 +56,10 @@ const trimSong = async (name, seconds) => {
 	return new Promise((resolve, reject) => {
 		ffmpeg(`uploads/${name}`)
 		.inputOption(`-t ${seconds}`)
-		.output(`play/${name}`)
-		.on('end', () => resolve(`play/${name}`))
+		.output(`tmp/${name}`)
+		.on('end', () => {
+			resolve(`tmp/${name}`)
+		})
 		.run();
 	})
 }
@@ -119,6 +119,47 @@ const getLyrics = (name, artist) => {
 	})
 }
 
+
+const TCPConnection = (name) => {
+	const ip = '192.168.137.55';
+	const port = 80;
+
+	// Connect to the server
+	const myConnect = net.createConnection({ host: ip, port: port }, () => {
+		console.log(`Connected to ${ip}:${port}`);
+		myConnect.write(`Hello`);
+		myConnect.end();
+	});
+
+	myConnect.on('error', (err) => {
+		console.error(err);
+	});
+
+}
+
+
+const parseFile = (path, size) => {
+	
+	return new Promise((resolve, reject) => {
+		fs.readFile(path, (err, data) => {
+			if (err) reject('Error reading file:', err);
+		  
+			// Converts the data to a hex string
+			const hexString = data.toString('hex').toUpperCase();
+	
+			// Hex Parsing Based on https://stackoverflow.com/questions/6259515/how-can-i-split-a-string-into-segments-of-n-characters
+			const hexArray = hexString.match(RegExp(`.{1,${size - 2}}`, 'g'))
+	
+			// Adds the start character '!' to each packet
+			// Adds the end character '?' to each packet
+			// Adds the end character '~' instead of '?' to the last packet
+			const packetArray = hexArray.map((string, i) => (i == hexArray.length - 1) ? `!${string}~` : `!${string}?`);
+			
+			resolve(packetArray);
+		})
+	})
+}
+
 // Express app: sets up middleware for express
 const app = express();
 app.use(express.json());
@@ -147,6 +188,7 @@ app.post("/upload_files", upload.single("file"), (req, res) => {
 
 // GET Request to get the list of files in the uploads folder
 app.get("/file_list", (req, res) => {
+	// make database quey to get fiellist
 	db.getSongList("defaultUser").then((data) => {
 		res.send(JSON.stringify(data));
 	})
@@ -154,14 +196,28 @@ app.get("/file_list", (req, res) => {
 
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {
+	
+	
+
+	// TCPConnection(req.query.name);
+	parseFile(`uploads/test.txt`, 20)
+	// parseFile(`uploads/${req.query.name}.wav`, 1024)
+	.then( packetArr => {
+		
+		console.log(packetArr)
+		// Add TCP send code
+		
+
+	})
+	.catch((message, err) => console.log(message, err));
+	
 	db.getSong("defaultUser", req.query.name).then((data) => {
 		res.send(JSON.stringify(data));
 	})
 });
 
 
-// Play Song
-app.use("/get_audio_file", express.static(path.join(__dirname, "play")));
+app.use("/get_audio_file", express.static(path.join(__dirname, "uploads")));
 
 
 // Runs the server
