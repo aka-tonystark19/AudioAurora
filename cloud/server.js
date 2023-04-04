@@ -8,7 +8,6 @@ const net = require('net');
 const Database = require('./Database.js');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
-// const node-aplay = require('node-aplay');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 // Paths Used by the server
@@ -138,6 +137,29 @@ const TCPConnection = (name) => {
 
 }
 
+
+const parseFile = (path, size) => {
+	
+	return new Promise((resolve, reject) => {
+		fs.readFile(path, (err, data) => {
+			if (err) reject('Error reading file:', err);
+		  
+			// Converts the data to a hex string
+			const hexString = data.toString('hex').toUpperCase();
+	
+			// Hex Parsing Based on https://stackoverflow.com/questions/6259515/how-can-i-split-a-string-into-segments-of-n-characters
+			const hexArray = hexString.match(RegExp(`.{1,${size - 2}}`, 'g'))
+	
+			// Adds the start character '!' to each packet
+			// Adds the end character '?' to each packet
+			// Adds the end character '~' instead of '?' to the last packet
+			const packetArray = hexArray.map((string, i) => (i == hexArray.length - 1) ? `!${string}~` : `!${string}?`);
+			
+			resolve(packetArray);
+		})
+	})
+}
+
 // Express app: sets up middleware for express
 const app = express();
 app.use(express.json());
@@ -174,8 +196,21 @@ app.get("/file_list", (req, res) => {
 
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {
+	
+	
+
+	// TCPConnection(req.query.name);
+	parseFile(`uploads/test.txt`, 20)
+	// parseFile(`uploads/${req.query.name}.wav`, 1024)
+	.then( packetArr => {
 		
-	TCPConnection(req.query.name);
+		console.log(packetArr)
+		// Add TCP send code
+		
+
+	})
+	.catch((message, err) => console.log(message, err));
+	
 	db.getSong("defaultUser", req.query.name).then((data) => {
 		res.send(JSON.stringify(data));
 	})
