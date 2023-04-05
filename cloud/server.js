@@ -195,17 +195,44 @@ app.get("/file_list", (req, res) => {
 });
 
 // GET Request to get the data for a specific song
-app.get("/get_song_data", (req, res) => {
-	
-	
+app.get("/get_song_data", (req, res) => {	
 
 	// TCPConnection(req.query.name);
-	parseFile(`uploads/test.txt`, 20)
+	parseFile(`uploads/test.txt`, 100)
 	// parseFile(`uploads/${req.query.name}.wav`, 1024)
 	.then( packetArr => {
-		
-		console.log(packetArr)
-		// Add TCP send code
+		const ip = '192.168.137.179';
+		const port = 80;
+		let pakcetNum = 0;
+
+		// Make a TCP connection with ESP8266 and send the first packet
+		const myConnect = net.createConnection({ host: ip, port: port }, () => {
+			console.log(`Connected to ${ip}:${port}`);
+
+			console.log(`Sending packet: ${pakcetNum + 1}/${packetArr.length}`);
+			myConnect.write(packetArr[pakcetNum]);
+		});
+
+		// When the ESP8266 sends an acknowledgment, send the next packet
+		// When the last packet is sent, close the connection
+		myConnect.on('data', data => {
+			console.log(`Acknowledgment received: ${pakcetNum + 1}`);
+			console.log(data.toString());
+			if (pakcetNum < packetArr.length - 1) {
+				pakcetNum++;
+				console.log(`Sending packet: ${pakcetNum + 1}/${packetArr.length}`);
+				myConnect.write(packetArr[pakcetNum]);
+			} else {
+				console.log("Done")
+				myConnect.end();
+			}
+		});
+
+		// If there is an error, close the connection
+		myConnect.on('error', (err) => {
+			console.error(err);
+			myConnect.end();
+		});
 		
 
 	})
