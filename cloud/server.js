@@ -119,25 +119,6 @@ const getLyrics = (name, artist) => {
 	})
 }
 
-
-const TCPConnection = (name) => {
-	const ip = '192.168.137.55';
-	const port = 80;
-
-	// Connect to the server
-	const myConnect = net.createConnection({ host: ip, port: port }, () => {
-		console.log(`Connected to ${ip}:${port}`);
-		myConnect.write(`Hello`);
-		myConnect.end();
-	});
-
-	myConnect.on('error', (err) => {
-		console.error(err);
-	});
-
-}
-
-
 const parseFile = (path, size) => {
 	
 	return new Promise((resolve, reject) => {
@@ -194,16 +175,14 @@ app.get("/file_list", (req, res) => {
 	})
 });
 
-// GET Request to get the data for a specific song
-app.get("/get_song_data", (req, res) => {	
-
-	// TCPConnection(req.query.name);
-	parseFile(`uploads/test.txt`, 100)
+const sendFile = () => {
+	parseFile(`uploads/alice.txt`,20)
 	// parseFile(`uploads/${req.query.name}.wav`, 1024)
 	.then( packetArr => {
-		const ip = '192.168.137.179';
+		const ip = '192.168.137.171';
 		const port = 80;
 		let pakcetNum = 0;
+		console.log(packetArr)
 
 		// Make a TCP connection with ESP8266 and send the first packet
 		const myConnect = net.createConnection({ host: ip, port: port }, () => {
@@ -219,9 +198,11 @@ app.get("/get_song_data", (req, res) => {
 			console.log(`Acknowledgment received: ${pakcetNum + 1}`);
 			console.log(data.toString());
 			if (pakcetNum < packetArr.length - 1) {
-				pakcetNum++;
-				console.log(`Sending packet: ${pakcetNum + 1}/${packetArr.length}`);
-				myConnect.write(packetArr[pakcetNum]);
+				setTimeout(() => {
+					pakcetNum++;
+					console.log(`Sending packet: ${pakcetNum + 1}/${packetArr.length}`);
+					myConnect.write(packetArr[pakcetNum]);
+				}, 1000); 
 			} else {
 				console.log("Done")
 				myConnect.end();
@@ -237,7 +218,32 @@ app.get("/get_song_data", (req, res) => {
 
 	})
 	.catch((message, err) => console.log(message, err));
-	
+}
+
+const TCPConnection = (name) => {
+	const ip = '192.168.137.171';
+	const port = 80;
+
+	// Connect to the server
+	const myConnect = net.createConnection({ host: ip, port: port }, () => {
+		console.log(`Connected to ${ip}:${port}`);
+		myConnect.write(`!${name}?`);
+		myConnect.end();
+	});
+
+	myConnect.on('error', (err) => {
+		console.error(err);
+	});
+
+}
+
+
+// GET Request to get the data for a specific song
+app.get("/get_song_data", (req, res) => {	
+
+	// TCPConnection("HelloMyFriends");
+	sendFile();
+	// TCPConnection(`q`);
 	db.getSong("defaultUser", req.query.name).then((data) => {
 		res.send(JSON.stringify(data));
 	})
