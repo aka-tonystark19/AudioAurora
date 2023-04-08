@@ -97,10 +97,10 @@ int main()
   volatile unsigned *curr_base_1 = RAM_DATA_BASE;
 
   for(int i = 1023; i >= 0; i--){
-  		*curr_base_1 = i;		//save to memory
-  		curr_base_1 = (int*)curr_base_1 +1 ;	//increment
-  		//printf("i = %d\n ", i);
-  		printf("curr_base = %x\n ", curr_base_1);
+  		*curr_base_1++ = i;		//save to memory
+//  		curr_base_1 = (int*)curr_base_1 +1 ;	//increment
+  		printf("i = %d\n ", i);
+  		//printf("curr_base = %x\n ", curr_base_1);
   }
 
 
