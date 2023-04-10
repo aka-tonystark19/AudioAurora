@@ -5,7 +5,7 @@ import { ReactComponent as DocumentLogo } from '../assets/document.svg';
 
 import './uploadForm.css';
 
-function UploadForm ({fileList, setFileList}) {
+function UploadForm ({user, fileList, setFileList}) {
 
     // State Variables that controlthe form
     const [file, setFile] = useState(null)
@@ -48,7 +48,9 @@ function UploadForm ({fileList, setFileList}) {
 
             // Creates a form data object to send to the server
             const formData = new FormData();
+            formData.append('username', user);
             formData.append('name', name);
+            
             formData.append('file', file);
 
             // Fetch API calls the server and sends the file

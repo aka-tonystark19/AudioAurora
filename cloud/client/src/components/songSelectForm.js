@@ -3,7 +3,7 @@ import Select from 'react-select';
 
 import './songSelectForm.css';
 
-function SongSelectForm ({fileList}) {
+function SongSelectForm ({user, fileList}) {
 
     const [songDetails, setsongDetails] = useState(null);
     const [song, setSong] = useState(null);
@@ -15,7 +15,7 @@ function SongSelectForm ({fileList}) {
 
     const getSongData = () => {
         if (song != null){
-            fetch(`http://localhost:8000/get_song_data?name=${song}`)
+            fetch(`http://localhost:8000/get_song_data?name=${song}&username=${user}`)
             .then(res => res.json()).then(data => {
                 setsongDetails(data);
                 var audio = new Audio(`http://localhost:8000/get_audio_file/${song}.wav`);

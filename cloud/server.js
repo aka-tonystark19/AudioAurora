@@ -148,16 +148,32 @@ app.use(express.urlencoded({ extended: true }));
 
 // Sets up access for html,css,app.js file for server to load the client
 app.use('/', express.static('client/build'));
+app.use('/login', express.static('client/build'));
+app.use('/register', express.static('client/build'));
+
+// 
+app.post('/loginRequest', (req, res) => {
+	// Check if login is valid
+	db.checkUser(req.body.username, req.body.password).then((result) => {
+		res.send({login: result});
+	});
+});
+
+// setUp registeration post request
+app.post('/registerRequest', (req, res) => {
+	db.addUser(req.body.username, req.body.password);
+	res.send({registration: true});
+});
 
 // Uploads the file to the server
 app.post("/upload_files", upload.single("file"), (req, res) => {
+	
 	convertType(req.body.name).then(() => {
-
 		identifySong(`${req.body.name}.wav`).then((songData) => {
 
 			getLyrics(songData.result.title, songData.result.artist).then((lyrics) => {
-
-				db.addSong("defaultUser", req.body.name, songData.result, lyrics);
+				
+				db.addSong(req.body.username, req.body.name, songData.result, lyrics);
 				res.send(JSON.stringify({ filename: req.body.name }));
 
 			})
@@ -170,7 +186,7 @@ app.post("/upload_files", upload.single("file"), (req, res) => {
 // GET Request to get the list of files in the uploads folder
 app.get("/file_list", (req, res) => {
 	// make database quey to get fiellist
-	db.getSongList("defaultUser").then((data) => {
+	db.getSongList(req.query.username).then((data) => {
 		res.send(JSON.stringify(data));
 	})
 });
@@ -237,18 +253,16 @@ const TCPConnection = (name) => {
 
 }
 
-
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {	
 
 	// TCPConnection("HelloMyFriends");
-	sendFile();
+	// sendFile();
 	// TCPConnection(`q`);
-	db.getSong("defaultUser", req.query.name).then((data) => {
+	db.getSong(req.query.username, req.query.name).then((data) => {
 		res.send(JSON.stringify(data));
 	})
 });
-
 
 app.use("/get_audio_file", express.static(path.join(__dirname, "uploads")));
 
