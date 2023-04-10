@@ -121,7 +121,8 @@
 #include "altera_up_avalon_rs232.h"
 #include "altera_up_avalon_rs232_regs.h"
 
-#define DATA_SIZE 2000000
+#define DATA_SIZE 10000
+#define MAX_CHARS 10
 
 void delay(int a){
 	volatile int i=0;
@@ -130,25 +131,37 @@ void delay(int a){
 	}
 }
 
-int main(void){
-//	printf("Ready to Receive Text\n");
-//	volatile int* data = IOADDR_ALT_UP_RS232_DATA(RS232_BASE);
-//	char* msg = "!1234567890?";
-//	char buf[20] = {0};
-//	alt_putstr("Test 1: Sending: "); alt_putstr(msg); alt_putstr("\n");
-//	for (int i = 0; i < strlen(msg); i++) {
-//		*data = (msg[i] >> ALT_UP_RS232_DATA_DATA_OFST) & ALT_UP_RS232_DATA_DATA_MSK;
-//		delay(1);
-//		buf[i] = (*data & ALT_UP_RS232_DATA_DATA_MSK) >> ALT_UP_RS232_DATA_DATA_OFST;
-//		printf("%c", buf[i]);
-//	}
-//	printf("\n");
-//	alt_putstr("Check 1: buffer: "); alt_putstr(buf); alt_putstr("\n");
+char mostFrequentChar(char* str) {
+    int len = strlen(str);
+    int count[MAX_CHARS] = {0};
+    int maxCount = 0;
+    char result;
 
-	printf("Ready to Receive Text\n");
+    // Count frequency of each character
+    for (int i = 0; i < len; i++) {
+        count[str[i]]++;
+        if (count[str[i]] > maxCount) {
+            maxCount = count[str[i]];
+            result = str[i];
+        }
+    }
+    return result;
+}
+
+int main(void){
+
+	printf("hello from NIOS II\n");
 	volatile int* data = IOADDR_ALT_UP_RS232_DATA(RS232_BASE);
-	char buf[100] = {0};
+	volatile unsigned char* mem = ONCHIP_MEMORY2_0_BASE;
+	int i = 0;
 	char a = '#';
+
+	char fileData[DATA_SIZE];
+
+//	for(int j=0; j<DATA_SIZE; j++){
+////			printf("%c",fileData[j]);
+//			fileData[j] = '\0';
+//	}
 
 	char holder = (*data & ALT_UP_RS232_DATA_DATA_MSK) >> ALT_UP_RS232_DATA_DATA_OFST;
 
@@ -175,18 +188,33 @@ int main(void){
 				if (a == '!'){
 					while (1){
 						a = (*data & ALT_UP_RS232_DATA_DATA_MSK) >> ALT_UP_RS232_DATA_DATA_OFST;
-						if (a == '?' || a == '~' || a == '!'){
+						if (a == '?' || a == '~'){
 							printf("\n");
 							break;
 						}
 						else {
-							printf("%c", a);
 							delay(1);
+//							printf("%c", a);
+							printf("%d ", i);
+							fileData[i] = a;
+							i++;
 						}
 					}
 				}
 				if (a == '~') break;
 			}
+
+		printf("Outside while loop with file data\n");
+
+//		char mostFrequent =  mostFrequentChar(fileData);
+
+//		printf("Most Frequent Character: %c\n", mostFrequent);
+
+		for(int j=0; j<DATA_SIZE; j++){
+//			if(i%18 == 0) printf("\n");
+			printf("%c",fileData[j]);
+			fileData[j] = NULL;
+		}
 
 
 //	while(1){
@@ -201,7 +229,14 @@ int main(void){
 //			return 0;
 //	}
 
-	printf("Packet Recieved!\n");
+	printf("Packet %d Recieved!\n", i);
+
+//	volatile unsigned char* newmem = ONCHIP_MEMORY2_0_BASE;
+//	for (int j = i; j > 0; j--) {
+//		printf("%c", *newmem);
+//		newmem++;
+//	}
+
 	while(1);
 
 
