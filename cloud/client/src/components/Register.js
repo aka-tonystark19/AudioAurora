@@ -1,10 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
+import { Navigate  } from 'react-router-dom';
 
 export default function Register() {
     // create a username and password state variable
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [forward, setForward] = useState(false);
 
     async function registerAccount(credentials) {
         fetch('http://localhost:8000/registerRequest', {
@@ -14,17 +16,14 @@ export default function Register() {
             },
           body: JSON.stringify(credentials)
         })
-        .then(res => res.json()).then(data => console.log(data))
+        .then(res => res.json()).then(data => data)
         .catch(err => console.log(err));
     }
 
     const handleRegister = (event) => {
         event.preventDefault();
         registerAccount({username, password})
-        .then(data => { 
-          // Go to /login
-
-      })
+        .then(data => setForward(true))
     }
 
   return(
@@ -38,6 +37,7 @@ export default function Register() {
         <button type="submit">Register!</button>
       </form>
       <a href="/login">Already Have An Account?</a>
+      {forward ? <Navigate to="/login" /> : null}
     </div>
   )
 }

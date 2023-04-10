@@ -8,19 +8,13 @@ function SongSelectForm ({user, fileList}) {
     const [songDetails, setsongDetails] = useState(null);
     const [song, setSong] = useState(null);
 
-    // Run Code Every Time fileList is Updated
-    useEffect(() => {
-      console.log(songDetails);
-    },[songDetails])
-
     const getSongData = () => {
         if (song != null){
             fetch(`http://localhost:8000/get_song_data?name=${song}&username=${user}`)
             .then(res => res.json()).then(data => {
                 setsongDetails(data);
-                var audio = new Audio(`http://localhost:8000/get_audio_file/${song}.wav`);
+                var audio = new Audio(`http://localhost:8000/get_audio_file/${user}/${song}.wav`);
                 audio.play();
-                console.log(song);
             })
             .catch(err => console.log(err));
         }

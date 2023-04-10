@@ -10,11 +10,6 @@ function App() {
   const [authorized, setAuthorized] = useState(false);
   const [username, setUsername] = useState("");
 
-  // console log authorized every time it changes
-  useEffect(() => {
-    console.log(authorized);
-  }, [authorized])
-
   // The Main Front End App;
   return (
     <div className='App'>

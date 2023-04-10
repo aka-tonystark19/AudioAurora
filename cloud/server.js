@@ -18,12 +18,22 @@ let db = new Database("mongodb://0.0.0.0:27017", "SongDB");
 let AUDIO_API = '0bf1edd22b592bdc7cbbe9e37fa37c0e';
 let MUSIC_API = '0d677468618ecf74a7748aa122362c5f';
 
+// Purpose: Creates the path for the file upload if it does not exist
+// Input: path to the file
+// OUTPUT: path to the file
+const createPath = (path) => {
+	if (!fs.existsSync(path)) {
+		fs.mkdirSync(path, { recursive: true });
+	}
+	return path;
+}
+
 // Purpose: Defines the multer specifications for the file upload. It specifies the destination and the name of the file
 // Storage Setup based on the multer documentation (https://github.com/expressjs/multer#diskstorage)
 const upload = multer({
 	storage: multer.diskStorage({
 		// TO DO: change adress to be user specific	
-		destination: (req, file, cb) => { cb(null, 'play/') },
+		destination: (req, file, cb) => { cb(null, createPath(`play/${req.body.username}`)) },
 		filename: (req, file, cb) => { cb(null, `${req.body.name}.mp3`) }
 	})
 });
@@ -31,17 +41,17 @@ const upload = multer({
 // Function Purpose: Converts the mp3 file to a wav file
 // Input: name of the mp3 file
 // OUTPUT: Resolves promise and tells the server to move on to the next step
-const convertType = (name) => {
+const convertType = (folder,name) => {
 
 	return new Promise((resolve, reject) => {
-		ffmpeg(`play/${name}.mp3`)
+		ffmpeg(`play/${folder}/${name}.mp3`)
 		.audioCodec('pcm_s16le')
 		.audioFrequency(4000)
 		.audioChannels(1)
 		.audioBitrate('32k')
 		.outputOptions('-compression_level 12')
 		.toFormat('wav')
-		.output(`uploads/${name}.wav`)
+		.output(`${createPath(`uploads/${folder}`)}/${name}.wav`)
 		.on('end', () => resolve())
 		.run()
 	})
@@ -52,9 +62,9 @@ const convertType = (name) => {
 // Function Purpose: Trims the song to the specified length and saves it to the tmp folder
 // Input: name of the mp3 file, length of the song in seconds
 // OUTPUT: Passes the location of the trimmed song in the resolve of the promise
-const trimSong = async (name, seconds) => {
+const trimSong = async (folder, name, seconds) => {
 	return new Promise((resolve, reject) => {
-		ffmpeg(`uploads/${name}`)
+		ffmpeg(`uploads/${folder}/${name}`)
 		.inputOption(`-t ${seconds}`)
 		.output(`tmp/${name}`)
 		.on('end', () => {
@@ -67,10 +77,10 @@ const trimSong = async (name, seconds) => {
 // Function Purpose: Gets the song data from the Audd.io API
 // Input: name of the mp3 file
 // OUTPUT: Passes the data from the API in the resolve of the promise
-const identifySong = (name) => {
+const identifySong = (folder, name) => {
 	return new Promise((resolve, reject) => {
 		// Calls the trimSong function to trim the song to 15 seconds, resolve the promise with the path of the trimmed song
-		trimSong(name, 15)
+		trimSong(folder, name, 15)
 		.then(path => {
 			// Sends the data to the API and returns the data
 			// API call based on documentation (https://docs.audd.io/)
@@ -167,9 +177,8 @@ app.post('/registerRequest', (req, res) => {
 
 // Uploads the file to the server
 app.post("/upload_files", upload.single("file"), (req, res) => {
-	
-	convertType(req.body.name).then(() => {
-		identifySong(`${req.body.name}.wav`).then((songData) => {
+	convertType(req.body.username,req.body.name).then(() => {
+		identifySong(req.body.username, `${req.body.name}.wav`).then((songData) => {
 
 			getLyrics(songData.result.title, songData.result.artist).then((lyrics) => {
 				
@@ -262,53 +271,31 @@ app.get("/get_song_data", (req, res) => {
 	var songFour = "!4444444444~";
 	var songFive= "!5555555555~";
 
-
-
 	// TCPConnection("!5555541555554155555415555541555554155555415555541555554155555415555541555554155555415555541555554155555415555541~");
 	// sendFile();
 	// TCPConnection(`q`);
 	db.getSong(req.query.username, req.query.name).then((data) => {
-		
-		console.log(req.query.name);
 
-		if(req.query.name === 'ThatWay'){
-				TCPConnection("!11111111~");
-				console.log("Sent song one.");
-			}
-		else if(req.query.name == 'Dont'){
-				TCPConnection(songTwo);
-		}
-		else if(req.query.name == 'bbt'){
-				TCPConnection(songThree);
-		}
-		else if(req.query.name == 'd'){
-				TCPConnection(songFour);
-		}
-		else if(req.query.name == 'e'){
-				TCPConnection(songFive);
-		}
+		// if(req.query.name === 'ThatWay'){
+		// 		TCPConnection("!11111111~");
+		// 		console.log("Sent song one.");
+		// 	}
+		// else if(req.query.name == 'Dont'){
+		// 		TCPConnection(songTwo);
+		// }
+		// else if(req.query.name == 'bbt'){
+		// 		TCPConnection(songThree);
+		// }
+		// else if(req.query.name == 'd'){
+		// 		TCPConnection(songFour);
+		// }
+		// else if(req.query.name == 'e'){
+		// 		TCPConnection(songFive);
+		// }
 
 		res.send(JSON.stringify(data));
 
 	})
-
-	if(req.query.name === 'ThatWay.wav'){
-	// if(req.query.name === '')
-		TCPConnection("!11111111~");
-		console.log("Sent song one.");
-	}
-	else if(req.query.name == 'Dont.wav'){
-		TCPConnection(songTwo);
-	}
-	else if(req.query.name == 'bbt.wav'){
-		TCPConnection(songThree);
-	}
-	else if(req.query.name == 'd.wav'){
-		TCPConnection(songFour);
-	}
-	else if(req.query.name == 'e.wav'){
-		TCPConnection(songFive);
-	}
 });
 
 app.use("/get_audio_file", express.static(path.join(__dirname, "uploads")));
