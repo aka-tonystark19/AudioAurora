@@ -245,55 +245,56 @@ const sendFile = () => {
 	.catch((message, err) => console.log(message, err));
 }
 
-const TCPConnection = (name) => {
-	const ip = '192.168.137.78';
-	const port = 80;
+const TCPConnection = (signal) => {
+	return new Promise((resolve, reject) => {
+		const ip = '192.168.137.78';
+		const port = 80;
 
-	// Connect to the server
-	const myConnect = net.createConnection({ host: ip, port: port }, () => {
-		console.log(`Connected to ${ip}:${port}`);
-		myConnect.write(`!${name}?`);
-		myConnect.end();
-	});
+		// Connect to the server
+		const myConnect = net.createConnection({ host: ip, port: port }, () => {
+			console.log(`Connected to ${ip}:${port}`);
+			myConnect.write(`!${signal}?`);
+		});
 
-	myConnect.on('error', (err) => {
-		console.error(err);
-	});
+		myConnect.on('error', (err) => {
+			console.error(err);
+		});
+
+		myConnect.on('data', data => {
+			myConnect.end();
+			resolve(data.toString());
+		})
+	})
 
 }
 
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {	
 
-	var songOne = "!1111111111~";
-	var songTwo = "!2222222222~";
-	var songThree = "!3333333333~";
-	var songFour = "!4444444444~";
-	var songFive= "!5555555555~";
+	let signalTable = {
+		"songZero": "0",
+		"songOne": "1",
+		"songTwo": "2",
+		"songThree": "3",
+		"songFour": "4",
+		"songFive": "5",
+		"songSix": "6",
+		"songSeven": "7",
+		"songEight": "8",
+		"songNine": "9"
+	}
 
-	// TCPConnection("!5555541555554155555415555541555554155555415555541555554155555415555541555554155555415555541555554155555415555541~");
-	// sendFile();
-	// TCPConnection(`q`);
 	db.getSong(req.query.username, req.query.name).then((data) => {
 
-		// if(req.query.name === 'ThatWay'){
-		// 		TCPConnection("!11111111~");
-		// 		console.log("Sent song one.");
-		// 	}
-		// else if(req.query.name == 'Dont'){
-		// 		TCPConnection(songTwo);
-		// }
-		// else if(req.query.name == 'bbt'){
-		// 		TCPConnection(songThree);
-		// }
-		// else if(req.query.name == 'd'){
-		// 		TCPConnection(songFour);
-		// }
-		// else if(req.query.name == 'e'){
-		// 		TCPConnection(songFive);
-		// }
-
-		res.send(JSON.stringify(data));
+		if (req.query.name in signalTable) {
+			let signal = signalTable[req.query.name].repeat(10);
+			TCPConnection(signal)
+			.then(() => res.send(JSON.stringify(data)))
+		} 
+		else {
+			res.send(JSON.stringify(data));
+		}
+		
 
 	})
 });
