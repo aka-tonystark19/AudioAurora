@@ -195,7 +195,7 @@ const sendFile = () => {
 	parseFile(`uploads/alice.txt`,20)
 	// parseFile(`uploads/${req.query.name}.wav`, 1024)
 	.then( packetArr => {
-		const ip = '192.168.137.171';
+		const ip = '192.168.137.78';
 		const port = 80;
 		let pakcetNum = 0;
 		console.log(packetArr)
@@ -237,7 +237,7 @@ const sendFile = () => {
 }
 
 const TCPConnection = (name) => {
-	const ip = '192.168.137.171';
+	const ip = '192.168.137.78';
 	const port = 80;
 
 	// Connect to the server
@@ -256,12 +256,59 @@ const TCPConnection = (name) => {
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {	
 
-	// TCPConnection("HelloMyFriends");
+	var songOne = "!1111111111~";
+	var songTwo = "!2222222222~";
+	var songThree = "!3333333333~";
+	var songFour = "!4444444444~";
+	var songFive= "!5555555555~";
+
+
+
+	// TCPConnection("!5555541555554155555415555541555554155555415555541555554155555415555541555554155555415555541555554155555415555541~");
 	// sendFile();
 	// TCPConnection(`q`);
 	db.getSong(req.query.username, req.query.name).then((data) => {
+		
+		console.log(req.query.name);
+
+		if(req.query.name === 'ThatWay'){
+				TCPConnection("!11111111~");
+				console.log("Sent song one.");
+			}
+		else if(req.query.name == 'Dont'){
+				TCPConnection(songTwo);
+		}
+		else if(req.query.name == 'bbt'){
+				TCPConnection(songThree);
+		}
+		else if(req.query.name == 'd'){
+				TCPConnection(songFour);
+		}
+		else if(req.query.name == 'e'){
+				TCPConnection(songFive);
+		}
+
 		res.send(JSON.stringify(data));
+
 	})
+
+	if(req.query.name === 'ThatWay.wav'){
+	// if(req.query.name === '')
+		TCPConnection("!11111111~");
+		console.log("Sent song one.");
+	}
+	else if(req.query.name == 'Dont.wav'){
+		TCPConnection(songTwo);
+	}
+	else if(req.query.name == 'bbt.wav'){
+		TCPConnection(songThree);
+	}
+	else if(req.query.name == 'd.wav'){
+		TCPConnection(songFour);
+	}
+	else if(req.query.name == 'e.wav'){
+		TCPConnection(songFive);
+	}
 });
 
 app.use("/get_audio_file", express.static(path.join(__dirname, "uploads")));
