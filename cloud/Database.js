@@ -48,6 +48,16 @@ Database.prototype.addSong = function(user, filename, songData, lyrics){
 	);
 }	 
 
+// create a function addUser that takes in a username and password and adds it to the database
+Database.prototype.addUser = function(username, password){
+	return this.connected.then(db =>
+		db.collection('users').insertOne({
+			username: username,
+			password: password
+		})
+	);
+}
+
 /*Returns the songData object for the song with the given the user and filename*/
 Database.prototype.getSong = function(user, filename){
 	return this.connected.then(db =>
@@ -80,4 +90,44 @@ Database.prototype.getSongList = function(user){
 		})
 	);
 }
+
+//Return all the users
+Database.prototype.getUserList = function(){
+	return this.connected.then(db =>
+		new Promise((resolve, reject) => {
+			// Get all the entries with the given user
+			//  return an array made up of the filename field
+
+			db.collection('users').find({}).toArray()
+			.then(users => {
+				let arr = [];
+				users.forEach(element => {
+					arr.push(element.username);
+				});
+			});
+		})
+	);
+}
+
+// Check if Given username and password are in the database
+Database.prototype.checkUser = function(username, password){
+	return this.connected.then(db =>
+		new Promise((resolve, reject) => {
+			db.collection('users').findOne({
+				username: username,
+				password: password
+			})
+			.then(user => {
+				if(user){
+					resolve(true);
+				}
+				else{
+					resolve(false);
+				}
+			})
+		})
+	);
+}
+
+// 
 module.exports = Database;
