@@ -8,6 +8,7 @@ const net = require('net');
 const Database = require('./Database.js');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
+const { measureMemory } = require('vm');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 // Paths Used by the server
@@ -82,10 +83,10 @@ const identifySong = (folder, name) => {
 	return new Promise((resolve, reject) => {
 		// Calls the trimSong function to trim the song to 15 seconds, resolve the promise with the path of the trimmed song
 		trimSong(folder, name, 15)
-		.then(path => {
+		.then(async path => {
 			// Sends the data to the API and returns the data
 			// API call based on documentation (https://docs.audd.io/)
-			let songData = axios({
+			let songData = await axios({
 				method: 'post',
 				url: 'https://api.audd.io/',
 				data: {
@@ -96,17 +97,14 @@ const identifySong = (folder, name) => {
 			})
 			.then(response => {console.log(response.data); return response.data})
 			.catch(error => console.log(error));
-			// Returns the path of the trimmed song and the data from the API to pass to the next promise
-			return { path: path, songData: songData }
-		})
-		.then(result => {
-			// delete a file from tmp folder (Came from: https://www.bezkoder.com/node-js-delete-file/) and return the data
-			fs.unlink(result.path, (err) => {
+
+			await fs.unlink(path, (err) => {
 				if (err) console.log(err);
-			});
-			// Returns the data from the API as a Promise.resolve()
-			resolve(result.songData)
+			});				
+
+			resolve(songData)
 		})
+		
 	});
 
 }
@@ -192,9 +190,9 @@ app.post("/upload_files", upload.single("file"), (req, res) => {
 			// Checks if the song was identified by the API
 			// If the song was identified, get the lyrics
 			// If the song was not identified, set the metadata to default values
-			if (songData["status"] == "success" && songData.result != null) {
+			if (songData != undefined && songData["status"] == "success" && songData.result != null) {
 				metaData = songData.result;
-				getLyrics(metadata.title, metadata.artist).then((lyrics) => {
+				getLyrics(songData.result.title, songData.result.artist).then((lyrics) => {
 					lyricData = lyrics;
 				})
 			}
