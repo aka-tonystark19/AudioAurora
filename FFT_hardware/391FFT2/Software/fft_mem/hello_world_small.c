@@ -22,7 +22,7 @@ int main()
 
 
   alt_putstr("Saving to RAM!\n");
-  /*
+  
   for(int i = 0; i< 512; i++){
   		*curr_base_1 = i;		//save to memory
   		*curr_base_2 = i;
@@ -32,12 +32,12 @@ int main()
   		curr_base_2 = (int*)curr_base_2 +1 ;
   }
   alt_putstr("Successfully saved to RAM!\nCALLING FFT! \n");
-  */
+  
 
-  //int num = callfft();
-  //printf("FFT returned: %d\n", num);
+  int num = callfft();
+  printf("FFT returned: %d\n", num);
 
-  /*
+  
   curr_base_1 = RAM_1_BASE;
   curr_base_2 = RAM_2_BASE;
   for(int i = 0; i < 512; i++){
@@ -47,7 +47,7 @@ int main()
     	curr_base_2 = (int*)curr_base_2 + 1;
 
   }
-*/
+
 
   for(int i = 0; i< 512; i++){
   		*curr_base_1 = i;		//save to memory

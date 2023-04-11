@@ -26,7 +26,7 @@ module vga_system (
 		output wire        vga_vga_vsync        //              .vga_vsync
 	);
 
-	wire         pll_0_outclk0_clk;                                           // pll_0:outclk_0 -> [fft_accel_0:clk, irq_mapper:clk, jtag_uart_0:clk, mm_interconnect_0:pll_0_outclk0_clk, new_sdram_controller_0:clk, nios2_gen2_0:clk, ram_1:clk, ram_2:clk, ram_instr:clk, rst_controller:clk, rst_controller_001:clk, timer_0:clk, vga_integrate_0:clk]
+	wire         pll_0_outclk0_clk;                                           // pll_0:outclk_0 -> [fft_accel_0:clk, irq_mapper:clk, jtag_uart_0:clk, mm_interconnect_0:pll_0_outclk0_clk, new_sdram_controller_0:clk, nios2_gen2_0:clk, ram_1:clk, ram_2:clk, ram_3:clk, ram_4:clk, ram_instr:clk, rst_controller:clk, rst_controller_001:clk, timer_0:clk, vga_integrate_0:clk]
 	wire  [31:0] fft_accel_0_avalon_master_1_readdata;                        // mm_interconnect_0:fft_accel_0_avalon_master_1_readdata -> fft_accel_0:master_readdata
 	wire         fft_accel_0_avalon_master_1_waitrequest;                     // mm_interconnect_0:fft_accel_0_avalon_master_1_waitrequest -> fft_accel_0:master_waitrequest
 	wire  [31:0] fft_accel_0_avalon_master_1_address;                         // fft_accel_0:master_address -> mm_interconnect_0:fft_accel_0_avalon_master_1_address
@@ -42,6 +42,20 @@ module vga_system (
 	wire         nios2_gen2_0_data_master_read;                               // nios2_gen2_0:d_read -> mm_interconnect_0:nios2_gen2_0_data_master_read
 	wire         nios2_gen2_0_data_master_write;                              // nios2_gen2_0:d_write -> mm_interconnect_0:nios2_gen2_0_data_master_write
 	wire  [31:0] nios2_gen2_0_data_master_writedata;                          // nios2_gen2_0:d_writedata -> mm_interconnect_0:nios2_gen2_0_data_master_writedata
+	wire  [31:0] fft_accel_0_avalon_master_4_readdata;                        // mm_interconnect_0:fft_accel_0_avalon_master_4_readdata -> fft_accel_0:master_readdata4
+	wire         fft_accel_0_avalon_master_4_waitrequest;                     // mm_interconnect_0:fft_accel_0_avalon_master_4_waitrequest -> fft_accel_0:master_waitrequest4
+	wire  [31:0] fft_accel_0_avalon_master_4_address;                         // fft_accel_0:master_address4 -> mm_interconnect_0:fft_accel_0_avalon_master_4_address
+	wire         fft_accel_0_avalon_master_4_read;                            // fft_accel_0:master_read4 -> mm_interconnect_0:fft_accel_0_avalon_master_4_read
+	wire         fft_accel_0_avalon_master_4_readdatavalid;                   // mm_interconnect_0:fft_accel_0_avalon_master_4_readdatavalid -> fft_accel_0:master_readdatavalid4
+	wire         fft_accel_0_avalon_master_4_write;                           // fft_accel_0:master_write4 -> mm_interconnect_0:fft_accel_0_avalon_master_4_write
+	wire  [31:0] fft_accel_0_avalon_master_4_writedata;                       // fft_accel_0:master_writedata4 -> mm_interconnect_0:fft_accel_0_avalon_master_4_writedata
+	wire         fft_accel_0_avalon_master_3_waitrequest;                     // mm_interconnect_0:fft_accel_0_avalon_master_3_waitrequest -> fft_accel_0:master_waitrequest3
+	wire  [31:0] fft_accel_0_avalon_master_3_readdata;                        // mm_interconnect_0:fft_accel_0_avalon_master_3_readdata -> fft_accel_0:master_readdata3
+	wire  [31:0] fft_accel_0_avalon_master_3_address;                         // fft_accel_0:master_address3 -> mm_interconnect_0:fft_accel_0_avalon_master_3_address
+	wire         fft_accel_0_avalon_master_3_read;                            // fft_accel_0:master_read3 -> mm_interconnect_0:fft_accel_0_avalon_master_3_read
+	wire         fft_accel_0_avalon_master_3_readdatavalid;                   // mm_interconnect_0:fft_accel_0_avalon_master_3_readdatavalid -> fft_accel_0:master_readdatavalid3
+	wire         fft_accel_0_avalon_master_3_write;                           // fft_accel_0:master_write3 -> mm_interconnect_0:fft_accel_0_avalon_master_3_write
+	wire  [31:0] fft_accel_0_avalon_master_3_writedata;                       // fft_accel_0:master_writedata3 -> mm_interconnect_0:fft_accel_0_avalon_master_3_writedata
 	wire  [31:0] fft_accel_0_avalon_master_2_readdata;                        // mm_interconnect_0:fft_accel_0_avalon_master_2_readdata -> fft_accel_0:master_readdata2
 	wire         fft_accel_0_avalon_master_2_waitrequest;                     // mm_interconnect_0:fft_accel_0_avalon_master_2_waitrequest -> fft_accel_0:master_waitrequest2
 	wire  [31:0] fft_accel_0_avalon_master_2_address;                         // fft_accel_0:master_address2 -> mm_interconnect_0:fft_accel_0_avalon_master_2_address
@@ -114,11 +128,25 @@ module vga_system (
 	wire         mm_interconnect_0_ram_2_s1_write;                            // mm_interconnect_0:ram_2_s1_write -> ram_2:write
 	wire  [31:0] mm_interconnect_0_ram_2_s1_writedata;                        // mm_interconnect_0:ram_2_s1_writedata -> ram_2:writedata
 	wire         mm_interconnect_0_ram_2_s1_clken;                            // mm_interconnect_0:ram_2_s1_clken -> ram_2:clken
+	wire         mm_interconnect_0_ram_3_s1_chipselect;                       // mm_interconnect_0:ram_3_s1_chipselect -> ram_3:chipselect
+	wire  [31:0] mm_interconnect_0_ram_3_s1_readdata;                         // ram_3:readdata -> mm_interconnect_0:ram_3_s1_readdata
+	wire   [9:0] mm_interconnect_0_ram_3_s1_address;                          // mm_interconnect_0:ram_3_s1_address -> ram_3:address
+	wire   [3:0] mm_interconnect_0_ram_3_s1_byteenable;                       // mm_interconnect_0:ram_3_s1_byteenable -> ram_3:byteenable
+	wire         mm_interconnect_0_ram_3_s1_write;                            // mm_interconnect_0:ram_3_s1_write -> ram_3:write
+	wire  [31:0] mm_interconnect_0_ram_3_s1_writedata;                        // mm_interconnect_0:ram_3_s1_writedata -> ram_3:writedata
+	wire         mm_interconnect_0_ram_3_s1_clken;                            // mm_interconnect_0:ram_3_s1_clken -> ram_3:clken
+	wire         mm_interconnect_0_ram_4_s1_chipselect;                       // mm_interconnect_0:ram_4_s1_chipselect -> ram_4:chipselect
+	wire  [31:0] mm_interconnect_0_ram_4_s1_readdata;                         // ram_4:readdata -> mm_interconnect_0:ram_4_s1_readdata
+	wire   [9:0] mm_interconnect_0_ram_4_s1_address;                          // mm_interconnect_0:ram_4_s1_address -> ram_4:address
+	wire   [3:0] mm_interconnect_0_ram_4_s1_byteenable;                       // mm_interconnect_0:ram_4_s1_byteenable -> ram_4:byteenable
+	wire         mm_interconnect_0_ram_4_s1_write;                            // mm_interconnect_0:ram_4_s1_write -> ram_4:write
+	wire  [31:0] mm_interconnect_0_ram_4_s1_writedata;                        // mm_interconnect_0:ram_4_s1_writedata -> ram_4:writedata
+	wire         mm_interconnect_0_ram_4_s1_clken;                            // mm_interconnect_0:ram_4_s1_clken -> ram_4:clken
 	wire         irq_mapper_receiver0_irq;                                    // timer_0:irq -> irq_mapper:receiver0_irq
 	wire         irq_mapper_receiver1_irq;                                    // jtag_uart_0:av_irq -> irq_mapper:receiver1_irq
 	wire  [31:0] nios2_gen2_0_irq_irq;                                        // irq_mapper:sender_irq -> nios2_gen2_0:irq
-	wire         rst_controller_reset_out_reset;                              // rst_controller:reset_out -> [fft_accel_0:rst_n, irq_mapper:reset, jtag_uart_0:rst_n, mm_interconnect_0:fft_accel_0_reset_sink_reset_bridge_in_reset_reset, new_sdram_controller_0:reset_n, nios2_gen2_0:reset_n, ram_1:reset, ram_2:reset, ram_instr:reset, rst_translator:in_reset]
-	wire         rst_controller_reset_out_reset_req;                          // rst_controller:reset_req -> [nios2_gen2_0:reset_req, ram_1:reset_req, ram_2:reset_req, ram_instr:reset_req, rst_translator:reset_req_in]
+	wire         rst_controller_reset_out_reset;                              // rst_controller:reset_out -> [fft_accel_0:rst_n, irq_mapper:reset, jtag_uart_0:rst_n, mm_interconnect_0:fft_accel_0_reset_sink_reset_bridge_in_reset_reset, new_sdram_controller_0:reset_n, nios2_gen2_0:reset_n, ram_1:reset, ram_2:reset, ram_3:reset, ram_4:reset, ram_instr:reset, rst_translator:in_reset]
+	wire         rst_controller_reset_out_reset_req;                          // rst_controller:reset_req -> [nios2_gen2_0:reset_req, ram_1:reset_req, ram_2:reset_req, ram_3:reset_req, ram_4:reset_req, ram_instr:reset_req, rst_translator:reset_req_in]
 	wire         nios2_gen2_0_debug_reset_request_reset;                      // nios2_gen2_0:debug_reset_request -> rst_controller:reset_in1
 	wire         rst_controller_001_reset_out_reset;                          // rst_controller_001:reset_out -> [mm_interconnect_0:vga_integrate_0_reset_reset_bridge_in_reset_reset, timer_0:reset_n, vga_integrate_0:rst_n]
 
@@ -145,7 +173,21 @@ module vga_system (
 		.slave_waitrequest     (mm_interconnect_0_fft_accel_0_avalon_slave_waitrequest), //                .waitrequest
 		.slave_write           (mm_interconnect_0_fft_accel_0_avalon_slave_write),       //                .write
 		.slave_writedata       (mm_interconnect_0_fft_accel_0_avalon_slave_writedata),   //                .writedata
-		.LEDR                  (lights_readdata)                                         //     conduit_end.readdata
+		.LEDR                  (lights_readdata),                                        //     conduit_end.readdata
+		.master_waitrequest3   (fft_accel_0_avalon_master_3_waitrequest),                // avalon_master_3.waitrequest
+		.master_address3       (fft_accel_0_avalon_master_3_address),                    //                .address
+		.master_read3          (fft_accel_0_avalon_master_3_read),                       //                .read
+		.master_readdata3      (fft_accel_0_avalon_master_3_readdata),                   //                .readdata
+		.master_readdatavalid3 (fft_accel_0_avalon_master_3_readdatavalid),              //                .readdatavalid
+		.master_write3         (fft_accel_0_avalon_master_3_write),                      //                .write
+		.master_writedata3     (fft_accel_0_avalon_master_3_writedata),                  //                .writedata
+		.master_address4       (fft_accel_0_avalon_master_4_address),                    // avalon_master_4.address
+		.master_read4          (fft_accel_0_avalon_master_4_read),                       //                .read
+		.master_readdata4      (fft_accel_0_avalon_master_4_readdata),                   //                .readdata
+		.master_readdatavalid4 (fft_accel_0_avalon_master_4_readdatavalid),              //                .readdatavalid
+		.master_waitrequest4   (fft_accel_0_avalon_master_4_waitrequest),                //                .waitrequest
+		.master_write4         (fft_accel_0_avalon_master_4_write),                      //                .write
+		.master_writedata4     (fft_accel_0_avalon_master_4_writedata)                   //                .writedata
 	);
 
 	vga_system_jtag_uart_0 jtag_uart_0 (
@@ -249,6 +291,34 @@ module vga_system (
 		.freeze     (1'b0)                                   // (terminated)
 	);
 
+	vga_system_ram_3 ram_3 (
+		.clk        (pll_0_outclk0_clk),                     //   clk1.clk
+		.address    (mm_interconnect_0_ram_3_s1_address),    //     s1.address
+		.clken      (mm_interconnect_0_ram_3_s1_clken),      //       .clken
+		.chipselect (mm_interconnect_0_ram_3_s1_chipselect), //       .chipselect
+		.write      (mm_interconnect_0_ram_3_s1_write),      //       .write
+		.readdata   (mm_interconnect_0_ram_3_s1_readdata),   //       .readdata
+		.writedata  (mm_interconnect_0_ram_3_s1_writedata),  //       .writedata
+		.byteenable (mm_interconnect_0_ram_3_s1_byteenable), //       .byteenable
+		.reset      (rst_controller_reset_out_reset),        // reset1.reset
+		.reset_req  (rst_controller_reset_out_reset_req),    //       .reset_req
+		.freeze     (1'b0)                                   // (terminated)
+	);
+
+	vga_system_ram_4 ram_4 (
+		.clk        (pll_0_outclk0_clk),                     //   clk1.clk
+		.address    (mm_interconnect_0_ram_4_s1_address),    //     s1.address
+		.clken      (mm_interconnect_0_ram_4_s1_clken),      //       .clken
+		.chipselect (mm_interconnect_0_ram_4_s1_chipselect), //       .chipselect
+		.write      (mm_interconnect_0_ram_4_s1_write),      //       .write
+		.readdata   (mm_interconnect_0_ram_4_s1_readdata),   //       .readdata
+		.writedata  (mm_interconnect_0_ram_4_s1_writedata),  //       .writedata
+		.byteenable (mm_interconnect_0_ram_4_s1_byteenable), //       .byteenable
+		.reset      (rst_controller_reset_out_reset),        // reset1.reset
+		.reset_req  (rst_controller_reset_out_reset_req),    //       .reset_req
+		.freeze     (1'b0)                                   // (terminated)
+	);
+
 	vga_system_ram_instr ram_instr (
 		.clk        (pll_0_outclk0_clk),                         //   clk1.clk
 		.address    (mm_interconnect_0_ram_instr_s1_address),    //     s1.address
@@ -308,6 +378,20 @@ module vga_system (
 		.fft_accel_0_avalon_master_2_readdatavalid          (fft_accel_0_avalon_master_2_readdatavalid),                   //                                             .readdatavalid
 		.fft_accel_0_avalon_master_2_write                  (fft_accel_0_avalon_master_2_write),                           //                                             .write
 		.fft_accel_0_avalon_master_2_writedata              (fft_accel_0_avalon_master_2_writedata),                       //                                             .writedata
+		.fft_accel_0_avalon_master_3_address                (fft_accel_0_avalon_master_3_address),                         //                  fft_accel_0_avalon_master_3.address
+		.fft_accel_0_avalon_master_3_waitrequest            (fft_accel_0_avalon_master_3_waitrequest),                     //                                             .waitrequest
+		.fft_accel_0_avalon_master_3_read                   (fft_accel_0_avalon_master_3_read),                            //                                             .read
+		.fft_accel_0_avalon_master_3_readdata               (fft_accel_0_avalon_master_3_readdata),                        //                                             .readdata
+		.fft_accel_0_avalon_master_3_readdatavalid          (fft_accel_0_avalon_master_3_readdatavalid),                   //                                             .readdatavalid
+		.fft_accel_0_avalon_master_3_write                  (fft_accel_0_avalon_master_3_write),                           //                                             .write
+		.fft_accel_0_avalon_master_3_writedata              (fft_accel_0_avalon_master_3_writedata),                       //                                             .writedata
+		.fft_accel_0_avalon_master_4_address                (fft_accel_0_avalon_master_4_address),                         //                  fft_accel_0_avalon_master_4.address
+		.fft_accel_0_avalon_master_4_waitrequest            (fft_accel_0_avalon_master_4_waitrequest),                     //                                             .waitrequest
+		.fft_accel_0_avalon_master_4_read                   (fft_accel_0_avalon_master_4_read),                            //                                             .read
+		.fft_accel_0_avalon_master_4_readdata               (fft_accel_0_avalon_master_4_readdata),                        //                                             .readdata
+		.fft_accel_0_avalon_master_4_readdatavalid          (fft_accel_0_avalon_master_4_readdatavalid),                   //                                             .readdatavalid
+		.fft_accel_0_avalon_master_4_write                  (fft_accel_0_avalon_master_4_write),                           //                                             .write
+		.fft_accel_0_avalon_master_4_writedata              (fft_accel_0_avalon_master_4_writedata),                       //                                             .writedata
 		.nios2_gen2_0_data_master_address                   (nios2_gen2_0_data_master_address),                            //                     nios2_gen2_0_data_master.address
 		.nios2_gen2_0_data_master_waitrequest               (nios2_gen2_0_data_master_waitrequest),                        //                                             .waitrequest
 		.nios2_gen2_0_data_master_byteenable                (nios2_gen2_0_data_master_byteenable),                         //                                             .byteenable
@@ -364,6 +448,20 @@ module vga_system (
 		.ram_2_s1_byteenable                                (mm_interconnect_0_ram_2_s1_byteenable),                       //                                             .byteenable
 		.ram_2_s1_chipselect                                (mm_interconnect_0_ram_2_s1_chipselect),                       //                                             .chipselect
 		.ram_2_s1_clken                                     (mm_interconnect_0_ram_2_s1_clken),                            //                                             .clken
+		.ram_3_s1_address                                   (mm_interconnect_0_ram_3_s1_address),                          //                                     ram_3_s1.address
+		.ram_3_s1_write                                     (mm_interconnect_0_ram_3_s1_write),                            //                                             .write
+		.ram_3_s1_readdata                                  (mm_interconnect_0_ram_3_s1_readdata),                         //                                             .readdata
+		.ram_3_s1_writedata                                 (mm_interconnect_0_ram_3_s1_writedata),                        //                                             .writedata
+		.ram_3_s1_byteenable                                (mm_interconnect_0_ram_3_s1_byteenable),                       //                                             .byteenable
+		.ram_3_s1_chipselect                                (mm_interconnect_0_ram_3_s1_chipselect),                       //                                             .chipselect
+		.ram_3_s1_clken                                     (mm_interconnect_0_ram_3_s1_clken),                            //                                             .clken
+		.ram_4_s1_address                                   (mm_interconnect_0_ram_4_s1_address),                          //                                     ram_4_s1.address
+		.ram_4_s1_write                                     (mm_interconnect_0_ram_4_s1_write),                            //                                             .write
+		.ram_4_s1_readdata                                  (mm_interconnect_0_ram_4_s1_readdata),                         //                                             .readdata
+		.ram_4_s1_writedata                                 (mm_interconnect_0_ram_4_s1_writedata),                        //                                             .writedata
+		.ram_4_s1_byteenable                                (mm_interconnect_0_ram_4_s1_byteenable),                       //                                             .byteenable
+		.ram_4_s1_chipselect                                (mm_interconnect_0_ram_4_s1_chipselect),                       //                                             .chipselect
+		.ram_4_s1_clken                                     (mm_interconnect_0_ram_4_s1_clken),                            //                                             .clken
 		.ram_instr_s1_address                               (mm_interconnect_0_ram_instr_s1_address),                      //                                 ram_instr_s1.address
 		.ram_instr_s1_write                                 (mm_interconnect_0_ram_instr_s1_write),                        //                                             .write
 		.ram_instr_s1_readdata                              (mm_interconnect_0_ram_instr_s1_readdata),                     //                                             .readdata

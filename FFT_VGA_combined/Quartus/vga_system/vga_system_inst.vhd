@@ -1,6 +1,7 @@
 	component vga_system is
 		port (
 			clk_clk             : in    std_logic                     := 'X';             -- clk
+			lights_readdata     : out   std_logic_vector(8 downto 0);                     -- readdata
 			pll_0_locked_export : out   std_logic;                                        -- export
 			pll_0_outclk1_clk   : out   std_logic;                                        -- clk
 			reset_reset_n       : in    std_logic                     := 'X';             -- reset_n
@@ -18,14 +19,14 @@
 			vga_vga_grn         : out   std_logic_vector(7 downto 0);                     -- vga_grn
 			vga_vga_hsync       : out   std_logic;                                        -- vga_hsync
 			vga_vga_red         : out   std_logic_vector(7 downto 0);                     -- vga_red
-			vga_vga_vsync       : out   std_logic;                                        -- vga_vsync
-			lights_readdata     : out   std_logic_vector(8 downto 0)                      -- readdata
+			vga_vga_vsync       : out   std_logic                                         -- vga_vsync
 		);
 	end component vga_system;
 
 	u0 : component vga_system
 		port map (
 			clk_clk             => CONNECTED_TO_clk_clk,             --           clk.clk
+			lights_readdata     => CONNECTED_TO_lights_readdata,     --        lights.readdata
 			pll_0_locked_export => CONNECTED_TO_pll_0_locked_export, --  pll_0_locked.export
 			pll_0_outclk1_clk   => CONNECTED_TO_pll_0_outclk1_clk,   -- pll_0_outclk1.clk
 			reset_reset_n       => CONNECTED_TO_reset_reset_n,       --         reset.reset_n
@@ -43,7 +44,6 @@
 			vga_vga_grn         => CONNECTED_TO_vga_vga_grn,         --              .vga_grn
 			vga_vga_hsync       => CONNECTED_TO_vga_vga_hsync,       --              .vga_hsync
 			vga_vga_red         => CONNECTED_TO_vga_vga_red,         --              .vga_red
-			vga_vga_vsync       => CONNECTED_TO_vga_vga_vsync,       --              .vga_vsync
-			lights_readdata     => CONNECTED_TO_lights_readdata      --        lights.readdata
+			vga_vga_vsync       => CONNECTED_TO_vga_vga_vsync        --              .vga_vsync
 		);
 

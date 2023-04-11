@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'vga_system'
  * SOPC Builder design path: ../../vga_system.sopcinfo
  *
- * Generated: Thu Mar 30 16:22:23 PDT 2023
+ * Generated: Tue Apr 11 11:47:12 PDT 2023
  */
 
 /*
@@ -71,6 +71,10 @@
 #define RAM_1_REGION_SPAN 4096
 #define RAM_2_REGION_BASE 0x6000
 #define RAM_2_REGION_SPAN 4096
+#define RAM_3_REGION_BASE 0x4000
+#define RAM_3_REGION_SPAN 4096
+#define RAM_4_REGION_BASE 0x5000
+#define RAM_4_REGION_SPAN 4096
 #define RAM_INSTR_REGION_BASE 0x40020
 #define RAM_INSTR_REGION_SPAN 32736
 #define RESET_REGION_BASE 0x40000

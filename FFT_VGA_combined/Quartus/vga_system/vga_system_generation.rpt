@@ -18,6 +18,10 @@ Progress: Adding ram_1 [altera_avalon_onchip_memory2 19.1]
 Progress: Parameterizing module ram_1
 Progress: Adding ram_2 [altera_avalon_onchip_memory2 19.1]
 Progress: Parameterizing module ram_2
+Progress: Adding ram_3 [altera_avalon_onchip_memory2 19.1]
+Progress: Parameterizing module ram_3
+Progress: Adding ram_4 [altera_avalon_onchip_memory2 19.1]
+Progress: Parameterizing module ram_4
 Progress: Adding ram_instr [altera_avalon_onchip_memory2 19.1]
 Progress: Parameterizing module ram_instr
 Progress: Adding timer_0 [altera_avalon_timer 19.1]
@@ -55,6 +59,10 @@ Progress: Adding ram_1 [altera_avalon_onchip_memory2 19.1]
 Progress: Parameterizing module ram_1
 Progress: Adding ram_2 [altera_avalon_onchip_memory2 19.1]
 Progress: Parameterizing module ram_2
+Progress: Adding ram_3 [altera_avalon_onchip_memory2 19.1]
+Progress: Parameterizing module ram_3
+Progress: Adding ram_4 [altera_avalon_onchip_memory2 19.1]
+Progress: Parameterizing module ram_4
 Progress: Adding ram_instr [altera_avalon_onchip_memory2 19.1]
 Progress: Parameterizing module ram_instr
 Progress: Adding timer_0 [altera_avalon_timer 19.1]
@@ -72,29 +80,37 @@ Info: vga_system.pll_0: Able to implement PLL with user settings
 Info: vga_system: Generating vga_system "vga_system" for QUARTUS_SYNTH
 Info: fft_accel_0: "vga_system" instantiated fft_accel "fft_accel_0"
 Info: jtag_uart_0: Starting RTL generation for module 'vga_system_jtag_uart_0'
-Info: jtag_uart_0:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=vga_system_jtag_uart_0 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0005_jtag_uart_0_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0005_jtag_uart_0_gen//vga_system_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
+Info: jtag_uart_0:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_jtag_uart/generate_rtl.pl --name=vga_system_jtag_uart_0 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0004_jtag_uart_0_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0004_jtag_uart_0_gen//vga_system_jtag_uart_0_component_configuration.pl  --do_build_sim=0  ]
 Info: jtag_uart_0: Done RTL generation for module 'vga_system_jtag_uart_0'
 Info: jtag_uart_0: "vga_system" instantiated altera_avalon_jtag_uart "jtag_uart_0"
 Info: new_sdram_controller_0: Starting RTL generation for module 'vga_system_new_sdram_controller_0'
-Info: new_sdram_controller_0:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=vga_system_new_sdram_controller_0 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0006_new_sdram_controller_0_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0006_new_sdram_controller_0_gen//vga_system_new_sdram_controller_0_component_configuration.pl  --do_build_sim=0  ]
+Info: new_sdram_controller_0:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_new_sdram_controller/generate_rtl.pl --name=vga_system_new_sdram_controller_0 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0005_new_sdram_controller_0_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0005_new_sdram_controller_0_gen//vga_system_new_sdram_controller_0_component_configuration.pl  --do_build_sim=0  ]
 Info: new_sdram_controller_0: Done RTL generation for module 'vga_system_new_sdram_controller_0'
 Info: new_sdram_controller_0: "vga_system" instantiated altera_avalon_new_sdram_controller "new_sdram_controller_0"
 Info: nios2_gen2_0: "vga_system" instantiated altera_nios2_gen2 "nios2_gen2_0"
 Info: pll_0: "vga_system" instantiated altera_pll "pll_0"
 Info: ram_1: Starting RTL generation for module 'vga_system_ram_1'
-Info: ram_1:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=vga_system_ram_1 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0008_ram_1_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0008_ram_1_gen//vga_system_ram_1_component_configuration.pl  --do_build_sim=0  ]
+Info: ram_1:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=vga_system_ram_1 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0007_ram_1_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0007_ram_1_gen//vga_system_ram_1_component_configuration.pl  --do_build_sim=0  ]
 Info: ram_1: Done RTL generation for module 'vga_system_ram_1'
 Info: ram_1: "vga_system" instantiated altera_avalon_onchip_memory2 "ram_1"
 Info: ram_2: Starting RTL generation for module 'vga_system_ram_2'
-Info: ram_2:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=vga_system_ram_2 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0009_ram_2_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0009_ram_2_gen//vga_system_ram_2_component_configuration.pl  --do_build_sim=0  ]
+Info: ram_2:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=vga_system_ram_2 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0008_ram_2_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0008_ram_2_gen//vga_system_ram_2_component_configuration.pl  --do_build_sim=0  ]
 Info: ram_2: Done RTL generation for module 'vga_system_ram_2'
 Info: ram_2: "vga_system" instantiated altera_avalon_onchip_memory2 "ram_2"
+Info: ram_3: Starting RTL generation for module 'vga_system_ram_3'
+Info: ram_3:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=vga_system_ram_3 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0009_ram_3_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0009_ram_3_gen//vga_system_ram_3_component_configuration.pl  --do_build_sim=0  ]
+Info: ram_3: Done RTL generation for module 'vga_system_ram_3'
+Info: ram_3: "vga_system" instantiated altera_avalon_onchip_memory2 "ram_3"
+Info: ram_4: Starting RTL generation for module 'vga_system_ram_4'
+Info: ram_4:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=vga_system_ram_4 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0010_ram_4_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0010_ram_4_gen//vga_system_ram_4_component_configuration.pl  --do_build_sim=0  ]
+Info: ram_4: Done RTL generation for module 'vga_system_ram_4'
+Info: ram_4: "vga_system" instantiated altera_avalon_onchip_memory2 "ram_4"
 Info: ram_instr: Starting RTL generation for module 'vga_system_ram_instr'
-Info: ram_instr:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=vga_system_ram_instr --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0010_ram_instr_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0010_ram_instr_gen//vga_system_ram_instr_component_configuration.pl  --do_build_sim=0  ]
+Info: ram_instr:   Generation command is [exec D:/intel2/quartus/bin64/perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2 -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_onchip_memory2/generate_rtl.pl --name=vga_system_ram_instr --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0011_ram_instr_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0011_ram_instr_gen//vga_system_ram_instr_component_configuration.pl  --do_build_sim=0  ]
 Info: ram_instr: Done RTL generation for module 'vga_system_ram_instr'
 Info: ram_instr: "vga_system" instantiated altera_avalon_onchip_memory2 "ram_instr"
 Info: timer_0: Starting RTL generation for module 'vga_system_timer_0'
-Info: timer_0:   Generation command is [exec D:/Intel2/quartus/bin64//perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer/generate_rtl.pl --name=vga_system_timer_0 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0011_timer_0_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0011_timer_0_gen//vga_system_timer_0_component_configuration.pl  --do_build_sim=0  ]
+Info: timer_0:   Generation command is [exec D:/Intel2/quartus/bin64//perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/common -I D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer -- D:/intel2/quartus/../ip/altera/sopc_builder_ip/altera_avalon_timer/generate_rtl.pl --name=vga_system_timer_0 --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0012_timer_0_gen/ --quartus_dir=D:/intel2/quartus --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0012_timer_0_gen//vga_system_timer_0_component_configuration.pl  --do_build_sim=0  ]
 Info: timer_0: Done RTL generation for module 'vga_system_timer_0'
 Info: timer_0: "vga_system" instantiated altera_avalon_timer "timer_0"
 Info: vga_integrate_0: "vga_system" instantiated vga_integrate "vga_integrate_0"
@@ -107,17 +123,19 @@ Info: avalon_st_adapter_005: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_006: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_007: Inserting error_adapter: error_adapter_0
 Info: avalon_st_adapter_008: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_009: Inserting error_adapter: error_adapter_0
+Info: avalon_st_adapter_010: Inserting error_adapter: error_adapter_0
 Info: mm_interconnect_0: "vga_system" instantiated altera_mm_interconnect "mm_interconnect_0"
 Info: irq_mapper: "vga_system" instantiated altera_irq_mapper "irq_mapper"
 Info: rst_controller: "vga_system" instantiated altera_reset_controller "rst_controller"
 Info: cpu: Starting RTL generation for module 'vga_system_nios2_gen2_0_cpu'
-Info: cpu:   Generation command is [exec D:/Intel2/quartus/bin64//perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.pl --name=vga_system_nios2_gen2_0_cpu --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0015_cpu_gen/ --quartus_bindir=D:/Intel2/quartus/bin64/ --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9446_2914986893847894016.dir/0015_cpu_gen//vga_system_nios2_gen2_0_cpu_processor_configuration.pl  --do_build_sim=0  ]
-Info: cpu: # 2023.03.30 12:19:45 (*) Starting Nios II generation
-Info: cpu: # 2023.03.30 12:19:45 (*)   Elaborating CPU configuration settings
-Info: cpu: # 2023.03.30 12:19:45 (*)   Creating all objects for CPU
-Info: cpu: # 2023.03.30 12:19:45 (*)   Generating RTL from CPU objects
-Info: cpu: # 2023.03.30 12:19:45 (*)   Creating plain-text RTL
-Info: cpu: # 2023.03.30 12:19:46 (*) Done Nios II generation
+Info: cpu:   Generation command is [exec D:/Intel2/quartus/bin64//perl/bin/perl.exe -I D:/intel2/quartus/sopc_builder/bin/europa -I D:/intel2/quartus/sopc_builder/bin -I D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/cpu_lib -I D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/nios_lib -I D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -I D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2 -- D:/intel2/quartus/../ip/altera/nios2_ip/altera_nios2_gen2/generate_rtl.pl --name=vga_system_nios2_gen2_0_cpu --dir=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0016_cpu_gen/ --quartus_bindir=D:/Intel2/quartus/bin64/ --verilog --config=C:/Users/SYLVIA~1/AppData/Local/Temp/alt9458_4892873262163282196.dir/0016_cpu_gen//vga_system_nios2_gen2_0_cpu_processor_configuration.pl  --do_build_sim=0  ]
+Info: cpu: # 2023.04.11 11:33:31 (*) Starting Nios II generation
+Info: cpu: # 2023.04.11 11:33:31 (*)   Elaborating CPU configuration settings
+Info: cpu: # 2023.04.11 11:33:31 (*)   Creating all objects for CPU
+Info: cpu: # 2023.04.11 11:33:31 (*)   Generating RTL from CPU objects
+Info: cpu: # 2023.04.11 11:33:31 (*)   Creating plain-text RTL
+Info: cpu: # 2023.04.11 11:33:32 (*) Done Nios II generation
 Info: cpu: Done RTL generation for module 'vga_system_nios2_gen2_0_cpu'
 Info: cpu: "nios2_gen2_0" instantiated altera_nios2_gen2_unit "cpu"
 Info: fft_accel_0_avalon_master_1_translator: "mm_interconnect_0" instantiated altera_merlin_master_translator "fft_accel_0_avalon_master_1_translator"
@@ -132,12 +150,16 @@ Info: router_003: "mm_interconnect_0" instantiated altera_merlin_router "router_
 Info: router_004: "mm_interconnect_0" instantiated altera_merlin_router "router_004"
 Info: router_005: "mm_interconnect_0" instantiated altera_merlin_router "router_005"
 Info: router_006: "mm_interconnect_0" instantiated altera_merlin_router "router_006"
-Info: router_009: "mm_interconnect_0" instantiated altera_merlin_router "router_009"
-Info: router_012: "mm_interconnect_0" instantiated altera_merlin_router "router_012"
+Info: router_007: "mm_interconnect_0" instantiated altera_merlin_router "router_007"
+Info: router_008: "mm_interconnect_0" instantiated altera_merlin_router "router_008"
+Info: router_011: "mm_interconnect_0" instantiated altera_merlin_router "router_011"
+Info: router_014: "mm_interconnect_0" instantiated altera_merlin_router "router_014"
+Info: router_015: "mm_interconnect_0" instantiated altera_merlin_router "router_015"
+Info: router_016: "mm_interconnect_0" instantiated altera_merlin_router "router_016"
 Info: new_sdram_controller_0_s1_burst_adapter: "mm_interconnect_0" instantiated altera_merlin_burst_adapter "new_sdram_controller_0_s1_burst_adapter"
 Info: cmd_demux: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux"
 Info: cmd_demux_001: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_001"
-Info: cmd_demux_003: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_003"
+Info: cmd_demux_005: "mm_interconnect_0" instantiated altera_merlin_demultiplexer "cmd_demux_005"
 Info: cmd_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux"
 Info: cmd_mux_002: "mm_interconnect_0" instantiated altera_merlin_multiplexer "cmd_mux_002"
 Info: Reusing file D:/CPEN391/l2c-42-sava/FFT_VGA_combined/Quartus/vga_system/synthesis/submodules/altera_merlin_arbitrator.sv
@@ -146,7 +168,7 @@ Info: rsp_mux: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_m
 Info: Reusing file D:/CPEN391/l2c-42-sava/FFT_VGA_combined/Quartus/vga_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: rsp_mux_001: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_001"
 Info: Reusing file D:/CPEN391/l2c-42-sava/FFT_VGA_combined/Quartus/vga_system/synthesis/submodules/altera_merlin_arbitrator.sv
-Info: rsp_mux_003: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_003"
+Info: rsp_mux_005: "mm_interconnect_0" instantiated altera_merlin_multiplexer "rsp_mux_005"
 Info: Reusing file D:/CPEN391/l2c-42-sava/FFT_VGA_combined/Quartus/vga_system/synthesis/submodules/altera_merlin_arbitrator.sv
 Info: new_sdram_controller_0_s1_rsp_width_adapter: "mm_interconnect_0" instantiated altera_merlin_width_adapter "new_sdram_controller_0_s1_rsp_width_adapter"
 Info: Reusing file D:/CPEN391/l2c-42-sava/FFT_VGA_combined/Quartus/vga_system/synthesis/submodules/altera_merlin_address_alignment.sv
@@ -155,6 +177,6 @@ Info: avalon_st_adapter: "mm_interconnect_0" instantiated altera_avalon_st_adapt
 Info: avalon_st_adapter_005: "mm_interconnect_0" instantiated altera_avalon_st_adapter "avalon_st_adapter_005"
 Info: error_adapter_0: "avalon_st_adapter" instantiated error_adapter "error_adapter_0"
 Info: error_adapter_0: "avalon_st_adapter_005" instantiated error_adapter "error_adapter_0"
-Info: vga_system: Done "vga_system" with 44 modules, 74 files
+Info: vga_system: Done "vga_system" with 50 modules, 82 files
 Info: qsys-generate succeeded.
 Info: Finished: Create HDL design files for synthesis

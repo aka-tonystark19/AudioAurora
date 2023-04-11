@@ -15,13 +15,23 @@ module fft_wrapper(input logic clk, input logic rst_n,
                 output logic master_read2, input logic [31:0] master_readdata2, //assert if i want to read or write
 				input logic master_readdatavalid2,	//need to check if it is valid, store only if its valid
                 output logic master_write2, output logic [31:0] master_writedata2,
+				input logic master_waitrequest3,
+                output logic [31:0] master_address3, //the address I want to read or write to
+                output logic master_read3, input logic [31:0] master_readdata3, //assert if i want to read or write
+				input logic master_readdatavalid3,	//need to check if it is valid, store only if its valid
+                output logic master_write3, output logic [31:0] master_writedata3,
+				input logic master_waitrequest4,
+                output logic [31:0] master_address4, //the address I want to read or write to
+                output logic master_read4, input logic [31:0] master_readdata4, //assert if i want to read or write
+				input logic master_readdatavalid4,	//need to check if it is valid, store only if its valid
+                output logic master_write4, output logic [31:0] master_writedata4,
 				output logic [9:1] LEDR);
 				
 	//states
 	enum{INIT, START, READ, WAITFFT, WRITE, DONE} state, next_state;
 
 	//values from CPU
-	logic [31:0] new_m_addr, new_m_addr2; //the two address are the same so only need one address
+	logic [31:0] new_m_addr, new_m_addr2, new_m_addr3, new_m_addr4; //the two address are the same so only need one address
 	logic [31:0] x0, y0, x1, y1, x2, y2, x3, y3;
 	logic [9:0] count, new_count; //keep track of how many times I have read or written (512)
 	logic [31:0] mag; //magnitude of output
@@ -47,6 +57,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 			//reset <= 1'b1; //rest for the fft
 			master_address <= 32'h7000;
 			master_address2 <= 32'h6000;
+			master_address3 <= 32'h4000;
+			master_address4 <= 32'h5000;
 		end
 		else begin
 			state <= next_state;
@@ -54,6 +66,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 			//reset <= 1'b0;
 			master_address <= new_m_addr;
 			master_address2 <= new_m_addr2;
+			master_address3 <= new_m_addr3;
+			master_address4 <= new_m_addr4;
 		end
 		
 	end
@@ -65,6 +79,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				new_count = 1'b0;
 				new_m_addr = 32'h7000;
 				new_m_addr2 = 32'h6000;
+				new_m_addr3 = 32'h4000;
+				new_m_addr4 = 32'h5000;
 				reset = 1'b1; //reset the fft
 				next = 1'b0;
 
@@ -79,6 +95,13 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				master_write2 = 1'b0;
 				master_writedata = 0;
 				master_writedata2 = 0;
+
+				master_read3 = 1'b0;
+				master_write3 = 1'b0;
+				master_writedata3 = 0;
+				master_read4 = 1'b0;
+				master_write4 = 1'b0;
+				master_writedata4 = 0;
 				LEDR[9:4]= 6'b100000;
 			end
 			START:begin //signal the fft to start reading values
@@ -88,6 +111,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				master_read2 = 1'b1;
 				new_m_addr = master_address + 32'd4; //need to read the next val next clock
 				new_m_addr2 = master_address2 + 32'd4;
+				new_m_addr3 = master_address3;
+				new_m_addr4 = master_address4;
 				
 				new_count = 0;
 				reset = 1'b0;
@@ -101,6 +126,13 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				master_write2 = 1'b0;
 				master_writedata = 0;
 				master_writedata2 = 0;
+
+				master_read3 = 1'b0;
+				master_write3 = 1'b0;
+				master_writedata3 = 0;
+				master_read4 = 1'b0;
+				master_write4 = 1'b0;
+				master_writedata4 = 0;
 				LEDR[9:4]= 6'b010000;
 			end
 			READ: begin //read 512 values per port from memory
@@ -131,6 +163,13 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				master_write2 = 1'b0;
 				master_writedata = 0;
 				master_writedata2 = 0;
+
+				master_read3 = 1'b0;
+				master_write3 = 1'b0;
+				master_writedata3 = 0;
+				master_read4 = 1'b0;
+				master_write4 = 1'b0;
+				master_writedata4 = 0;
 				LEDR[9:4]= 6'b001000;
 
 			end
@@ -143,6 +182,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				new_count = 1'b0;
 				new_m_addr = 32'h7000;
 				new_m_addr2 = 32'h6000;
+				new_m_addr3 = 32'h4000;
+				new_m_addr4 = 32'h5000;
 				reset = 1'b0;
 				next = 1'b0;
 
@@ -158,6 +199,13 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				master_write2 = 1'b0;
 				master_writedata = 0;
 				master_writedata2 = 0;
+
+				master_read3 = 1'b0;
+				master_write3 = 1'b0;
+				master_writedata3 = 0;
+				master_read4 = 1'b0;
+				master_write4 = 1'b0;
+				master_writedata4 = 0;
 				LEDR[9:4]= 6'b000100;
 			end
 			WRITE:begin
@@ -166,15 +214,25 @@ module fft_wrapper(input logic clk, input logic rst_n,
 					new_count = count + 1'b1;
 					master_write = 1'b1;
 					master_write2 = 1'b1;
+					master_write3 = 1'b1;
+					master_write4 = 1'b1;
 					new_m_addr = master_address + 32'd4;
 					new_m_addr2 = master_address2 + 32'd4;
+					new_m_addr3 = master_address3 + 32'd4;
+					new_m_addr4 = master_address4 + 32'd4;
+
 				end else begin
 					next_state = DONE;
 					new_count = 1'b0;
 					master_write = 1'b0;
 					master_write2 = 1'b0;
+					master_write3 = 1'b0;
+					master_write4 = 1'b0;
 					new_m_addr = 32'h7000;
 					new_m_addr2 = 32'h6000;
+					new_m_addr3 = 32'h4000;
+					new_m_addr4 = 32'h5000;
+
 				end
 				//fft inputs
 				x0 = 0;
@@ -185,8 +243,17 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				slave_waitrequest = 1'b1; //busy
 				master_read = 1'b0;
 				master_read2 = 1'b0;
-				master_writedata = y0*y0 + y1*y1; //write the magnitudes into memory
-				master_writedata2 = y2*y2 + y3*y3;
+				master_read3 = 1'b0;
+				master_read4 = 1'b0;
+				// master_writedata = (y0 >> 8)*(y0 >> 8) + (y1 >> 4)*(y1 >> 4); //write the magnitudes into memory
+				// master_writedata2 = (y2 >> 8)*(y2>> 8) + (y3>> 4)*(y3 >> 4);
+				//master_writedata = {1'b0, y0[30:0]};
+				//master_writedata2 = {1'b0, y2[30:0]};
+				master_writedata = y0;
+				master_writedata2 = y1;
+				master_writedata3 = y2;
+				master_writedata4 = y3;
+
 				LEDR[9:4]= 6'b000010;
 			end
 			DONE:begin //done
@@ -194,6 +261,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				new_count = 1'b0;
 				new_m_addr = 32'h7000;
 				new_m_addr2 = 32'h6000;
+				new_m_addr3 = 32'h4000;
+				new_m_addr4 = 32'h5000;
 				reset = 1'b0; 
 				next = 1'b0;
 
@@ -208,6 +277,13 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				master_write2 = 1'b0;
 				master_writedata = 0;
 				master_writedata2 = 0;
+
+				master_read3 = 1'b0;
+				master_write3 = 1'b0;
+				master_writedata3 = 0;
+				master_read4 = 1'b0;
+				master_write4 = 1'b0;
+				master_writedata4 = 0;
 				LEDR[9:4]= 6'b000001;
 			end
 			default:begin //default
@@ -215,6 +291,8 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				new_count = 1'b0;
 				new_m_addr = 32'b0;
 				new_m_addr2 = 32'b0;
+				new_m_addr3 = 32'b0;
+				new_m_addr4 = 32'b0;
 				reset = 1'b0; 
 				next = 1'b0;
 
@@ -229,6 +307,13 @@ module fft_wrapper(input logic clk, input logic rst_n,
 				master_write2 = 1'b0;
 				master_writedata = 0;
 				master_writedata2 = 0;
+
+				master_read3 = 1'b0;
+				master_write3 = 1'b0;
+				master_writedata3 = 0;
+				master_read4 = 1'b0;
+				master_write4 = 1'b0;
+				master_writedata4 = 0;
 				LEDR[9:4]= 6'b000000;
 			end
 		endcase

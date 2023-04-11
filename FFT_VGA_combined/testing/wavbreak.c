@@ -22,7 +22,7 @@ typedef struct {
 
 int main() {
     // Open the WAV file
-    FILE * wav_file = fopen("440.wav", "rb");
+    FILE * wav_file = fopen("11400.wav", "rb");
     if (wav_file == NULL) {
         printf("Error: could not open WAV file\n");
         return 1;
@@ -48,10 +48,10 @@ int main() {
     // printf("Subchunk2 size: %d\n", header.subchunk2_size);
 
     // Print the first 65536 samples
-    uint32_t sample;
+    uint16_t sample;
     int i = 0;
     while (fread(&sample, sizeof(sample), 1, wav_file) == 1) {
-        printf("%u, ", sample);
+        printf("%hu, ", sample);
         if(i%8 == 0) printf("\n");
         i++;
         if (i == 1024) {

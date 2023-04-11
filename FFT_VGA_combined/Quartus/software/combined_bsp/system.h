@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'vga_system'
  * SOPC Builder design path: ../../vga_system.sopcinfo
  *
- * Generated: Thu Mar 30 16:22:23 PDT 2023
+ * Generated: Tue Apr 11 11:47:13 PDT 2023
  */
 
 /*
@@ -316,6 +316,64 @@
 #define RAM_2_SPAN 4096
 #define RAM_2_TYPE "altera_avalon_onchip_memory2"
 #define RAM_2_WRITABLE 1
+
+
+/*
+ * ram_3 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_ram_3 altera_avalon_onchip_memory2
+#define RAM_3_ALLOW_IN_SYSTEM_MEMORY_CONTENT_EDITOR 0
+#define RAM_3_ALLOW_MRAM_SIM_CONTENTS_ONLY_FILE 0
+#define RAM_3_BASE 0x4000
+#define RAM_3_CONTENTS_INFO ""
+#define RAM_3_DUAL_PORT 0
+#define RAM_3_GUI_RAM_BLOCK_TYPE "AUTO"
+#define RAM_3_INIT_CONTENTS_FILE "vga_system_ram_3"
+#define RAM_3_INIT_MEM_CONTENT 1
+#define RAM_3_INSTANCE_ID "NONE"
+#define RAM_3_IRQ -1
+#define RAM_3_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define RAM_3_NAME "/dev/ram_3"
+#define RAM_3_NON_DEFAULT_INIT_FILE_ENABLED 0
+#define RAM_3_RAM_BLOCK_TYPE "AUTO"
+#define RAM_3_READ_DURING_WRITE_MODE "DONT_CARE"
+#define RAM_3_SINGLE_CLOCK_OP 0
+#define RAM_3_SIZE_MULTIPLE 1
+#define RAM_3_SIZE_VALUE 4096
+#define RAM_3_SPAN 4096
+#define RAM_3_TYPE "altera_avalon_onchip_memory2"
+#define RAM_3_WRITABLE 1
+
+
+/*
+ * ram_4 configuration
+ *
+ */
+
+#define ALT_MODULE_CLASS_ram_4 altera_avalon_onchip_memory2
+#define RAM_4_ALLOW_IN_SYSTEM_MEMORY_CONTENT_EDITOR 0
+#define RAM_4_ALLOW_MRAM_SIM_CONTENTS_ONLY_FILE 0
+#define RAM_4_BASE 0x5000
+#define RAM_4_CONTENTS_INFO ""
+#define RAM_4_DUAL_PORT 0
+#define RAM_4_GUI_RAM_BLOCK_TYPE "AUTO"
+#define RAM_4_INIT_CONTENTS_FILE "vga_system_ram_4"
+#define RAM_4_INIT_MEM_CONTENT 1
+#define RAM_4_INSTANCE_ID "NONE"
+#define RAM_4_IRQ -1
+#define RAM_4_IRQ_INTERRUPT_CONTROLLER_ID -1
+#define RAM_4_NAME "/dev/ram_4"
+#define RAM_4_NON_DEFAULT_INIT_FILE_ENABLED 0
+#define RAM_4_RAM_BLOCK_TYPE "AUTO"
+#define RAM_4_READ_DURING_WRITE_MODE "DONT_CARE"
+#define RAM_4_SINGLE_CLOCK_OP 0
+#define RAM_4_SIZE_MULTIPLE 1
+#define RAM_4_SIZE_VALUE 4096
+#define RAM_4_SPAN 4096
+#define RAM_4_TYPE "altera_avalon_onchip_memory2"
+#define RAM_4_WRITABLE 1
 
 
 /*

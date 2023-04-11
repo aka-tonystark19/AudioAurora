@@ -4,7 +4,7 @@
  * Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'vga_system'
  * SOPC Builder design path: ../../vga_system.sopcinfo
  *
- * Generated: Thu Mar 30 16:22:23 PDT 2023
+ * Generated: Tue Apr 11 11:47:12 PDT 2023
  */
 
 /*
@@ -50,6 +50,8 @@
 
 MEMORY
 {
+    ram_3 : ORIGIN = 0x4000, LENGTH = 4096
+    ram_4 : ORIGIN = 0x5000, LENGTH = 4096
     ram_2 : ORIGIN = 0x6000, LENGTH = 4096
     ram_1 : ORIGIN = 0x7000, LENGTH = 4096
     reset : ORIGIN = 0x40000, LENGTH = 32
@@ -58,6 +60,8 @@ MEMORY
 }
 
 /* Define symbols for each memory base-address */
+__alt_mem_ram_3 = 0x4000;
+__alt_mem_ram_4 = 0x5000;
 __alt_mem_ram_2 = 0x6000;
 __alt_mem_ram_1 = 0x7000;
 __alt_mem_ram_instr = 0x40000;
@@ -309,7 +313,41 @@ SECTIONS
      *
      */
 
-    .ram_2 : AT ( LOADADDR (.rwdata) + SIZEOF (.rwdata) )
+    .ram_3 : AT ( LOADADDR (.rwdata) + SIZEOF (.rwdata) )
+    {
+        PROVIDE (_alt_partition_ram_3_start = ABSOLUTE(.));
+        *(.ram_3 .ram_3. ram_3.*)
+        . = ALIGN(4);
+        PROVIDE (_alt_partition_ram_3_end = ABSOLUTE(.));
+    } > ram_3
+
+    PROVIDE (_alt_partition_ram_3_load_addr = LOADADDR(.ram_3));
+
+    /*
+     *
+     * This section's LMA is set to the .text region.
+     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
+     *
+     */
+
+    .ram_4 : AT ( LOADADDR (.ram_3) + SIZEOF (.ram_3) )
+    {
+        PROVIDE (_alt_partition_ram_4_start = ABSOLUTE(.));
+        *(.ram_4 .ram_4. ram_4.*)
+        . = ALIGN(4);
+        PROVIDE (_alt_partition_ram_4_end = ABSOLUTE(.));
+    } > ram_4
+
+    PROVIDE (_alt_partition_ram_4_load_addr = LOADADDR(.ram_4));
+
+    /*
+     *
+     * This section's LMA is set to the .text region.
+     * crt0 will copy to this section's specified mapped region virtual memory address (VMA)
+     *
+     */
+
+    .ram_2 : AT ( LOADADDR (.ram_4) + SIZEOF (.ram_4) )
     {
         PROVIDE (_alt_partition_ram_2_start = ABSOLUTE(.));
         *(.ram_2 .ram_2. ram_2.*)

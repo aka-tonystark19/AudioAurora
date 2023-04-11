@@ -2,10 +2,10 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>30-Mar-2023 4:22:22 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1680218542461</BspGeneratedUnixTimeStamp>
+        <BspGeneratedTimeStamp>11-Apr-2023 11:47:10 AM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1681238830269</BspGeneratedUnixTimeStamp>
         <BspGeneratedLocation>D:\CPEN391\l2c-42-sava\FFT_VGA_combined\Quartus\software\combined_bsp</BspGeneratedLocation>
-        <BspSettingsFile>.\settings.bsp</BspSettingsFile>
+        <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\vga_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>
         <Cpu>nios2_gen2_0</Cpu>
@@ -921,6 +921,18 @@
                 <addressRange>0x00001040 - 0x0000105F</addressRange>
                 <addressSpan>32</addressSpan>
                 <attributes/>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>ram_3</slaveDescriptor>
+                <addressRange>0x00004000 - 0x00004FFF</addressRange>
+                <addressSpan>4096</addressSpan>
+                <attributes>memory</attributes>
+        </MemoryMap>
+        <MemoryMap>
+                <slaveDescriptor>ram_4</slaveDescriptor>
+                <addressRange>0x00005000 - 0x00005FFF</addressRange>
+                <addressSpan>4096</addressSpan>
+                <attributes>memory</attributes>
         </MemoryMap>
         <MemoryMap>
                 <slaveDescriptor>ram_2</slaveDescriptor>

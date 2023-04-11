@@ -1,5 +1,6 @@
 	vga_system u0 (
 		.clk_clk             (<connected-to-clk_clk>),             //           clk.clk
+		.lights_readdata     (<connected-to-lights_readdata>),     //        lights.readdata
 		.pll_0_locked_export (<connected-to-pll_0_locked_export>), //  pll_0_locked.export
 		.pll_0_outclk1_clk   (<connected-to-pll_0_outclk1_clk>),   // pll_0_outclk1.clk
 		.reset_reset_n       (<connected-to-reset_reset_n>),       //         reset.reset_n
@@ -17,7 +18,6 @@
 		.vga_vga_grn         (<connected-to-vga_vga_grn>),         //              .vga_grn
 		.vga_vga_hsync       (<connected-to-vga_vga_hsync>),       //              .vga_hsync
 		.vga_vga_red         (<connected-to-vga_vga_red>),         //              .vga_red
-		.vga_vga_vsync       (<connected-to-vga_vga_vsync>),       //              .vga_vsync
-		.lights_readdata     (<connected-to-lights_readdata>)      //        lights.readdata
+		.vga_vga_vsync       (<connected-to-vga_vga_vsync>)        //              .vga_vsync
 	);
 
