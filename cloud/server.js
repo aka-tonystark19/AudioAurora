@@ -15,8 +15,9 @@ const host = 'localhost';
 const port = 8000;
 let db = new Database("mongodb://0.0.0.0:27017", "SongDB");
 
-let AUDIO_API = '0bf1edd22b592bdc7cbbe9e37fa37c0e';
+let AUDIO_API = 'ab6c8650476732681c33106a84dac8d9';
 let MUSIC_API = '0d677468618ecf74a7748aa122362c5f';
+let ESP8266_IP = '192.168.137.247';
 
 // Purpose: Creates the path for the file upload if it does not exist
 // Input: path to the file
@@ -177,15 +178,34 @@ app.post('/registerRequest', (req, res) => {
 
 // Uploads the file to the server
 app.post("/upload_files", upload.single("file"), (req, res) => {
-	convertType(req.body.username,req.body.name).then(() => {
-		identifySong(req.body.username, `${req.body.name}.wav`).then((songData) => {
+	// Defines the name of the file and the user who uploaded it from the body of POST request
+	let user = req.body.username;
+	let name = req.body.name;
+	
+	// Data to be retrieved from the API
+	let metaData = {};
+	let lyricData = {};
+	
+	convertType(user,name).then(() => {
+		identifySong(user, `${name}.wav`).then((songData) => {
 
-			getLyrics(songData.result.title, songData.result.artist).then((lyrics) => {
-				
-				db.addSong(req.body.username, req.body.name, songData.result, lyrics);
-				res.send(JSON.stringify({ filename: req.body.name }));
+			// Checks if the song was identified by the API
+			// If the song was identified, get the lyrics
+			// If the song was not identified, set the metadata to default values
+			if (songData["status"] == "success" && songData.result != null) {
+				metaData = songData.result;
+				getLyrics(metadata.title, metadata.artist).then((lyrics) => {
+					lyricData = lyrics;
+				})
+			}
+			else {
+				metaData = {title: "Song Not Detected", artist: "Artist Not Found"}
+				lyricData = {lyrics_body: ""}
+			}
+			db.addSong(user, name, metaData, lyricData);
+			res.send(JSON.stringify({ filename: name }));
 
-			})
+			
 		})
 
 	});
@@ -201,10 +221,10 @@ app.get("/file_list", (req, res) => {
 });
 
 const sendFile = () => {
-	parseFile(`uploads/alice.txt`,20)
+	parseFile(`uploads/alice.txt`,34)
 	// parseFile(`uploads/${req.query.name}.wav`, 1024)
 	.then( packetArr => {
-		const ip = '192.168.137.78';
+		const ip = ESP8266_IP;
 		const port = 80;
 		let pakcetNum = 0;
 		console.log(packetArr)
@@ -247,7 +267,7 @@ const sendFile = () => {
 
 const TCPConnection = (signal) => {
 	return new Promise((resolve, reject) => {
-		const ip = '192.168.137.78';
+		const ip = ESP8266_IP;
 		const port = 80;
 
 		// Connect to the server
@@ -272,8 +292,8 @@ const TCPConnection = (signal) => {
 app.get("/get_song_data", (req, res) => {	
 
 	let signalTable = {
-		"songZero": "0",
-		"songOne": "1",
+		"Frequency 1 - 440 Hz": "0",
+		"Frequency 2 - 10,000 Hz": "1",
 		"songTwo": "2",
 		"songThree": "3",
 		"songFour": "4",
