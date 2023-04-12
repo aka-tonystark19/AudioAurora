@@ -105,18 +105,17 @@ function UploadForm ({user, fileList, setFileList}) {
             <form onSubmit={onSubmit}>
                     
                     {/* Name Input Text Box */}
-                    <div className="row">
+                    <div id="filenameInput" className="row">
                         <input type="text" id="nameInput" placeholder="Enter File Name" disabled={!fileAccepted} value={name} onChange={onChange} /> 
                     </div>
 
                     {/* Error Message for Wrong Name */}
-                    <div className="row">
-                        {validName ? null : <p className='wrongNameError'>File Name Already Exists</p>}
-                    </div>
+                    {validName ? null : <div id="nameExists" className="row"><p className='wrongNameError'>File Name Already Exists</p></div>}
+                    
 
                     {/* Submit Button to upload the file */}
-                    <div className="row">
-                        <input type="submit"  id="submitButton" value="Upload" className={fileAccepted && validName ? "submitButtons buttonActive" : "submitButtons buttonInactive"} />  
+                    <div id="submitButton" className="row">
+                        <input type="submit" disabled={!(fileAccepted && validName)} value="Upload" className={fileAccepted && validName ? "submitButtons buttonActive" : "submitButtons buttonInactive"} />  
                     </div>
     
                 </form>
