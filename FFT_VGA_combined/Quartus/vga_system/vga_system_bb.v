@@ -19,7 +19,9 @@ module vga_system (
 	vga_vga_grn,
 	vga_vga_hsync,
 	vga_vga_red,
-	vga_vga_vsync);	
+	vga_vga_vsync,
+	rs232_0_external_interface_RXD,
+	rs232_0_external_interface_TXD);	
 
 	input		clk_clk;
 	output	[8:0]	lights_readdata;
@@ -41,4 +43,6 @@ module vga_system (
 	output		vga_vga_hsync;
 	output	[7:0]	vga_vga_red;
 	output		vga_vga_vsync;
+	input		rs232_0_external_interface_RXD;
+	output		rs232_0_external_interface_TXD;
 endmodule

@@ -4,29 +4,31 @@
 
 `timescale 1 ps / 1 ps
 module vga_system (
-		input  wire        clk_clk,             //           clk.clk
-		output wire [8:0]  lights_readdata,     //        lights.readdata
-		output wire        pll_0_locked_export, //  pll_0_locked.export
-		output wire        pll_0_outclk1_clk,   // pll_0_outclk1.clk
-		input  wire        reset_reset_n,       //         reset.reset_n
-		output wire [12:0] sdram_addr,          //         sdram.addr
-		output wire [1:0]  sdram_ba,            //              .ba
-		output wire        sdram_cas_n,         //              .cas_n
-		output wire        sdram_cke,           //              .cke
-		output wire        sdram_cs_n,          //              .cs_n
-		inout  wire [15:0] sdram_dq,            //              .dq
-		output wire [1:0]  sdram_dqm,           //              .dqm
-		output wire        sdram_ras_n,         //              .ras_n
-		output wire        sdram_we_n,          //              .we_n
-		output wire [7:0]  vga_vga_blu,         //           vga.vga_blu
-		output wire        vga_vga_clk,         //              .vga_clk
-		output wire [7:0]  vga_vga_grn,         //              .vga_grn
-		output wire        vga_vga_hsync,       //              .vga_hsync
-		output wire [7:0]  vga_vga_red,         //              .vga_red
-		output wire        vga_vga_vsync        //              .vga_vsync
+		input  wire        clk_clk,                        //                        clk.clk
+		output wire [8:0]  lights_readdata,                //                     lights.readdata
+		output wire        pll_0_locked_export,            //               pll_0_locked.export
+		output wire        pll_0_outclk1_clk,              //              pll_0_outclk1.clk
+		input  wire        reset_reset_n,                  //                      reset.reset_n
+		input  wire        rs232_0_external_interface_RXD, // rs232_0_external_interface.RXD
+		output wire        rs232_0_external_interface_TXD, //                           .TXD
+		output wire [12:0] sdram_addr,                     //                      sdram.addr
+		output wire [1:0]  sdram_ba,                       //                           .ba
+		output wire        sdram_cas_n,                    //                           .cas_n
+		output wire        sdram_cke,                      //                           .cke
+		output wire        sdram_cs_n,                     //                           .cs_n
+		inout  wire [15:0] sdram_dq,                       //                           .dq
+		output wire [1:0]  sdram_dqm,                      //                           .dqm
+		output wire        sdram_ras_n,                    //                           .ras_n
+		output wire        sdram_we_n,                     //                           .we_n
+		output wire [7:0]  vga_vga_blu,                    //                        vga.vga_blu
+		output wire        vga_vga_clk,                    //                           .vga_clk
+		output wire [7:0]  vga_vga_grn,                    //                           .vga_grn
+		output wire        vga_vga_hsync,                  //                           .vga_hsync
+		output wire [7:0]  vga_vga_red,                    //                           .vga_red
+		output wire        vga_vga_vsync                   //                           .vga_vsync
 	);
 
-	wire         pll_0_outclk0_clk;                                           // pll_0:outclk_0 -> [fft_accel_0:clk, irq_mapper:clk, jtag_uart_0:clk, mm_interconnect_0:pll_0_outclk0_clk, new_sdram_controller_0:clk, nios2_gen2_0:clk, ram_1:clk, ram_2:clk, ram_3:clk, ram_4:clk, ram_instr:clk, rst_controller:clk, rst_controller_001:clk, timer_0:clk, vga_integrate_0:clk]
+	wire         pll_0_outclk0_clk;                                           // pll_0:outclk_0 -> [fft_accel_0:clk, irq_mapper:clk, jtag_uart_0:clk, mm_interconnect_0:pll_0_outclk0_clk, new_sdram_controller_0:clk, nios2_gen2_0:clk, ram_1:clk, ram_2:clk, ram_3:clk, ram_4:clk, ram_instr:clk, rs232_0:clk, rst_controller:clk, rst_controller_001:clk, timer_0:clk, vga_integrate_0:clk]
 	wire  [31:0] fft_accel_0_avalon_master_1_readdata;                        // mm_interconnect_0:fft_accel_0_avalon_master_1_readdata -> fft_accel_0:master_readdata
 	wire         fft_accel_0_avalon_master_1_waitrequest;                     // mm_interconnect_0:fft_accel_0_avalon_master_1_waitrequest -> fft_accel_0:master_waitrequest
 	wire  [31:0] fft_accel_0_avalon_master_1_address;                         // fft_accel_0:master_address -> mm_interconnect_0:fft_accel_0_avalon_master_1_address
@@ -81,6 +83,13 @@ module vga_system (
 	wire         mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_read;        // mm_interconnect_0:jtag_uart_0_avalon_jtag_slave_read -> jtag_uart_0:av_read_n
 	wire         mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_write;       // mm_interconnect_0:jtag_uart_0_avalon_jtag_slave_write -> jtag_uart_0:av_write_n
 	wire  [31:0] mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_writedata;   // mm_interconnect_0:jtag_uart_0_avalon_jtag_slave_writedata -> jtag_uart_0:av_writedata
+	wire         mm_interconnect_0_rs232_0_avalon_rs232_slave_chipselect;     // mm_interconnect_0:rs232_0_avalon_rs232_slave_chipselect -> rs232_0:chipselect
+	wire  [31:0] mm_interconnect_0_rs232_0_avalon_rs232_slave_readdata;       // rs232_0:readdata -> mm_interconnect_0:rs232_0_avalon_rs232_slave_readdata
+	wire   [0:0] mm_interconnect_0_rs232_0_avalon_rs232_slave_address;        // mm_interconnect_0:rs232_0_avalon_rs232_slave_address -> rs232_0:address
+	wire         mm_interconnect_0_rs232_0_avalon_rs232_slave_read;           // mm_interconnect_0:rs232_0_avalon_rs232_slave_read -> rs232_0:read
+	wire   [3:0] mm_interconnect_0_rs232_0_avalon_rs232_slave_byteenable;     // mm_interconnect_0:rs232_0_avalon_rs232_slave_byteenable -> rs232_0:byteenable
+	wire         mm_interconnect_0_rs232_0_avalon_rs232_slave_write;          // mm_interconnect_0:rs232_0_avalon_rs232_slave_write -> rs232_0:write
+	wire  [31:0] mm_interconnect_0_rs232_0_avalon_rs232_slave_writedata;      // mm_interconnect_0:rs232_0_avalon_rs232_slave_writedata -> rs232_0:writedata
 	wire  [31:0] mm_interconnect_0_fft_accel_0_avalon_slave_readdata;         // fft_accel_0:slave_readdata -> mm_interconnect_0:fft_accel_0_avalon_slave_readdata
 	wire         mm_interconnect_0_fft_accel_0_avalon_slave_waitrequest;      // fft_accel_0:slave_waitrequest -> mm_interconnect_0:fft_accel_0_avalon_slave_waitrequest
 	wire   [3:0] mm_interconnect_0_fft_accel_0_avalon_slave_address;          // mm_interconnect_0:fft_accel_0_avalon_slave_address -> fft_accel_0:slave_address
@@ -142,13 +151,14 @@ module vga_system (
 	wire         mm_interconnect_0_ram_4_s1_write;                            // mm_interconnect_0:ram_4_s1_write -> ram_4:write
 	wire  [31:0] mm_interconnect_0_ram_4_s1_writedata;                        // mm_interconnect_0:ram_4_s1_writedata -> ram_4:writedata
 	wire         mm_interconnect_0_ram_4_s1_clken;                            // mm_interconnect_0:ram_4_s1_clken -> ram_4:clken
-	wire         irq_mapper_receiver0_irq;                                    // timer_0:irq -> irq_mapper:receiver0_irq
-	wire         irq_mapper_receiver1_irq;                                    // jtag_uart_0:av_irq -> irq_mapper:receiver1_irq
+	wire         irq_mapper_receiver0_irq;                                    // rs232_0:irq -> irq_mapper:receiver0_irq
+	wire         irq_mapper_receiver1_irq;                                    // timer_0:irq -> irq_mapper:receiver1_irq
+	wire         irq_mapper_receiver2_irq;                                    // jtag_uart_0:av_irq -> irq_mapper:receiver2_irq
 	wire  [31:0] nios2_gen2_0_irq_irq;                                        // irq_mapper:sender_irq -> nios2_gen2_0:irq
 	wire         rst_controller_reset_out_reset;                              // rst_controller:reset_out -> [fft_accel_0:rst_n, irq_mapper:reset, jtag_uart_0:rst_n, mm_interconnect_0:fft_accel_0_reset_sink_reset_bridge_in_reset_reset, new_sdram_controller_0:reset_n, nios2_gen2_0:reset_n, ram_1:reset, ram_2:reset, ram_3:reset, ram_4:reset, ram_instr:reset, rst_translator:in_reset]
 	wire         rst_controller_reset_out_reset_req;                          // rst_controller:reset_req -> [nios2_gen2_0:reset_req, ram_1:reset_req, ram_2:reset_req, ram_3:reset_req, ram_4:reset_req, ram_instr:reset_req, rst_translator:reset_req_in]
 	wire         nios2_gen2_0_debug_reset_request_reset;                      // nios2_gen2_0:debug_reset_request -> rst_controller:reset_in1
-	wire         rst_controller_001_reset_out_reset;                          // rst_controller_001:reset_out -> [mm_interconnect_0:vga_integrate_0_reset_reset_bridge_in_reset_reset, timer_0:reset_n, vga_integrate_0:rst_n]
+	wire         rst_controller_001_reset_out_reset;                          // rst_controller_001:reset_out -> [mm_interconnect_0:rs232_0_reset_reset_bridge_in_reset_reset, rs232_0:reset, timer_0:reset_n, vga_integrate_0:rst_n]
 
 	fft_wrapper fft_accel_0 (
 		.clk                   (pll_0_outclk0_clk),                                      //           clock.clk
@@ -200,7 +210,7 @@ module vga_system (
 		.av_write_n     (~mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_write),      //                  .write_n
 		.av_writedata   (mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_writedata),   //                  .writedata
 		.av_waitrequest (mm_interconnect_0_jtag_uart_0_avalon_jtag_slave_waitrequest), //                  .waitrequest
-		.av_irq         (irq_mapper_receiver1_irq)                                     //               irq.irq
+		.av_irq         (irq_mapper_receiver2_irq)                                     //               irq.irq
 	);
 
 	vga_system_new_sdram_controller_0 new_sdram_controller_0 (
@@ -333,6 +343,21 @@ module vga_system (
 		.freeze     (1'b0)                                       // (terminated)
 	);
 
+	vga_system_rs232_0 rs232_0 (
+		.clk        (pll_0_outclk0_clk),                                       //                clk.clk
+		.reset      (rst_controller_001_reset_out_reset),                      //              reset.reset
+		.address    (mm_interconnect_0_rs232_0_avalon_rs232_slave_address),    // avalon_rs232_slave.address
+		.chipselect (mm_interconnect_0_rs232_0_avalon_rs232_slave_chipselect), //                   .chipselect
+		.byteenable (mm_interconnect_0_rs232_0_avalon_rs232_slave_byteenable), //                   .byteenable
+		.read       (mm_interconnect_0_rs232_0_avalon_rs232_slave_read),       //                   .read
+		.write      (mm_interconnect_0_rs232_0_avalon_rs232_slave_write),      //                   .write
+		.writedata  (mm_interconnect_0_rs232_0_avalon_rs232_slave_writedata),  //                   .writedata
+		.readdata   (mm_interconnect_0_rs232_0_avalon_rs232_slave_readdata),   //                   .readdata
+		.irq        (irq_mapper_receiver0_irq),                                //          interrupt.irq
+		.UART_RXD   (rs232_0_external_interface_RXD),                          // external_interface.export
+		.UART_TXD   (rs232_0_external_interface_TXD)                           //                   .export
+	);
+
 	vga_system_timer_0 timer_0 (
 		.clk        (pll_0_outclk0_clk),                       //   clk.clk
 		.reset_n    (~rst_controller_001_reset_out_reset),     // reset.reset_n
@@ -341,7 +366,7 @@ module vga_system (
 		.readdata   (mm_interconnect_0_timer_0_s1_readdata),   //      .readdata
 		.chipselect (mm_interconnect_0_timer_0_s1_chipselect), //      .chipselect
 		.write_n    (~mm_interconnect_0_timer_0_s1_write),     //      .write_n
-		.irq        (irq_mapper_receiver0_irq)                 //   irq.irq
+		.irq        (irq_mapper_receiver1_irq)                 //   irq.irq
 	);
 
 	vga_integrate vga_integrate_0 (
@@ -363,7 +388,7 @@ module vga_system (
 	vga_system_mm_interconnect_0 mm_interconnect_0 (
 		.pll_0_outclk0_clk                                  (pll_0_outclk0_clk),                                           //                                pll_0_outclk0.clk
 		.fft_accel_0_reset_sink_reset_bridge_in_reset_reset (rst_controller_reset_out_reset),                              // fft_accel_0_reset_sink_reset_bridge_in_reset.reset
-		.vga_integrate_0_reset_reset_bridge_in_reset_reset  (rst_controller_001_reset_out_reset),                          //  vga_integrate_0_reset_reset_bridge_in_reset.reset
+		.rs232_0_reset_reset_bridge_in_reset_reset          (rst_controller_001_reset_out_reset),                          //          rs232_0_reset_reset_bridge_in_reset.reset
 		.fft_accel_0_avalon_master_1_address                (fft_accel_0_avalon_master_1_address),                         //                  fft_accel_0_avalon_master_1.address
 		.fft_accel_0_avalon_master_1_waitrequest            (fft_accel_0_avalon_master_1_waitrequest),                     //                                             .waitrequest
 		.fft_accel_0_avalon_master_1_read                   (fft_accel_0_avalon_master_1_read),                            //                                             .read
@@ -469,6 +494,13 @@ module vga_system (
 		.ram_instr_s1_byteenable                            (mm_interconnect_0_ram_instr_s1_byteenable),                   //                                             .byteenable
 		.ram_instr_s1_chipselect                            (mm_interconnect_0_ram_instr_s1_chipselect),                   //                                             .chipselect
 		.ram_instr_s1_clken                                 (mm_interconnect_0_ram_instr_s1_clken),                        //                                             .clken
+		.rs232_0_avalon_rs232_slave_address                 (mm_interconnect_0_rs232_0_avalon_rs232_slave_address),        //                   rs232_0_avalon_rs232_slave.address
+		.rs232_0_avalon_rs232_slave_write                   (mm_interconnect_0_rs232_0_avalon_rs232_slave_write),          //                                             .write
+		.rs232_0_avalon_rs232_slave_read                    (mm_interconnect_0_rs232_0_avalon_rs232_slave_read),           //                                             .read
+		.rs232_0_avalon_rs232_slave_readdata                (mm_interconnect_0_rs232_0_avalon_rs232_slave_readdata),       //                                             .readdata
+		.rs232_0_avalon_rs232_slave_writedata               (mm_interconnect_0_rs232_0_avalon_rs232_slave_writedata),      //                                             .writedata
+		.rs232_0_avalon_rs232_slave_byteenable              (mm_interconnect_0_rs232_0_avalon_rs232_slave_byteenable),     //                                             .byteenable
+		.rs232_0_avalon_rs232_slave_chipselect              (mm_interconnect_0_rs232_0_avalon_rs232_slave_chipselect),     //                                             .chipselect
 		.timer_0_s1_address                                 (mm_interconnect_0_timer_0_s1_address),                        //                                   timer_0_s1.address
 		.timer_0_s1_write                                   (mm_interconnect_0_timer_0_s1_write),                          //                                             .write
 		.timer_0_s1_readdata                                (mm_interconnect_0_timer_0_s1_readdata),                       //                                             .readdata
@@ -486,6 +518,7 @@ module vga_system (
 		.reset         (rst_controller_reset_out_reset), // clk_reset.reset
 		.receiver0_irq (irq_mapper_receiver0_irq),       // receiver0.irq
 		.receiver1_irq (irq_mapper_receiver1_irq),       // receiver1.irq
+		.receiver2_irq (irq_mapper_receiver2_irq),       // receiver2.irq
 		.sender_irq    (nios2_gen2_0_irq_irq)            //    sender.irq
 	);
 

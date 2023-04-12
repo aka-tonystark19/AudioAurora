@@ -19,7 +19,9 @@ module vgavisual (
     output logic DRAM_CS_N,
     inout logic [15:0] DRAM_DQ,
     output logic DRAM_UDQM,
-    output logic DRAM_LDQM
+    output logic DRAM_LDQM,
+    input logic [35:0] GPIO_1,
+    output logic [35:0] GPIO_0
 );
 
 	vga_system u0 (
@@ -42,7 +44,9 @@ module vgavisual (
 		.vga_vga_hsync       (VGA_HS),                  //              .vga_hsync
 		.vga_vga_red         (VGA_R),                   //              .vga_red
 		.vga_vga_vsync       (VGA_VS),                  //              .vga_vsync
-        .lights_readdata     (LEDR[9:1])                //        lights.readdata
+        .lights_readdata     (LEDR[9:1]),               //        lights.readdata
+        .rs232_0_external_interface_RXD (GPIO_1[35]),   // rs232_0_external_interface.RXD
+		.rs232_0_external_interface_TXD (GPIO_0[35])    //  
 	);
 
 

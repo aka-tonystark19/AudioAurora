@@ -324,13 +324,21 @@ hal_C_LIB_SRCS := \
 	$(hal_SRCS_ROOT)/src/alt_wait.c \
 	$(hal_SRCS_ROOT)/src/alt_write.c
 
+# up_avalon_rs232_driver sources root 
+up_avalon_rs232_driver_SRCS_ROOT := drivers
+
+# up_avalon_rs232_driver sources 
+up_avalon_rs232_driver_C_LIB_SRCS := \
+	$(up_avalon_rs232_driver_SRCS_ROOT)/src/altera_up_avalon_rs232.c
+
 
 # Assemble all component C source files 
 COMPONENT_C_LIB_SRCS += \
 	$(altera_avalon_jtag_uart_driver_C_LIB_SRCS) \
 	$(altera_avalon_timer_driver_C_LIB_SRCS) \
 	$(altera_nios2_gen2_hal_driver_C_LIB_SRCS) \
-	$(hal_C_LIB_SRCS)
+	$(hal_C_LIB_SRCS) \
+	$(up_avalon_rs232_driver_C_LIB_SRCS)
 
 # Assemble all component assembly source files 
 COMPONENT_ASM_LIB_SRCS += \
