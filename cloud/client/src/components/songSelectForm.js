@@ -13,7 +13,7 @@ function SongSelectForm ({user, fileList}) {
             fetch(`http://localhost:8000/get_song_data?name=${song}&username=${user}`)
             .then(res => res.json()).then(data => {
                 setsongDetails(data);
-                var audio = new Audio(`http://localhost:8000/get_audio_file/${user}/${song}.wav`);
+                var audio = new Audio(`http://localhost:8000/get_audio_file/${user}/${song}.mp3`);
                 audio.play();
             })
             .catch(err => console.log(err));

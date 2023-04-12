@@ -79,7 +79,7 @@ function UploadForm ({user, fileList, setFileList}) {
             {/* File Upload Drag and Drop Element */}
             <div className='row'>
                 <Dropzone
-                    accept={{ 'audio/mp3': [".mp3", ".wav"] }}
+                    accept={{ 'audio/mp3': [".mp3"] }}
                     multiple={false}
                     onDropRejected={onReject}
                     onDropAccepted={onAccept}

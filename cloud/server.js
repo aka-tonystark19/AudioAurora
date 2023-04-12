@@ -286,10 +286,10 @@ const TCPConnection = (signal) => {
 
 // GET Request to get the data for a specific song
 app.get("/get_song_data", (req, res) => {	
-
+	console.log(req.query)
 	let signalTable = {
-		"Frequency 1 - 440 Hz": "0",
-		"Frequency 2 - 10,000 Hz": "1",
+		"Frequencya 1 - 440 Hz": "0",
+		"Frequencya 2 - 10,000 Hz": "1",
 		"songTwo": "2",
 		"songThree": "3",
 		"songFour": "4",
@@ -301,7 +301,6 @@ app.get("/get_song_data", (req, res) => {
 	}
 
 	db.getSong(req.query.username, req.query.name).then((data) => {
-
 		if (req.query.name in signalTable) {
 			let signal = signalTable[req.query.name].repeat(10);
 			TCPConnection(signal)
@@ -315,7 +314,7 @@ app.get("/get_song_data", (req, res) => {
 	})
 });
 
-app.use("/get_audio_file", express.static(path.join(__dirname, "uploads")));
+app.use("/get_audio_file", express.static(path.join(__dirname, "play")));
 
 
 // Runs the server
