@@ -32,6 +32,10 @@
   /* color: #FFFFFF; */
 }
 
+.DDContainer{
+    color: white;
+}
+
 .DDContainer .dropdown__control {
     background-color: #292c33;
     color: #FFFFFF;
@@ -65,9 +69,5 @@
 .DDContainer .dropdown__input-container,
 .DDContainer .dropdown__placeholder,
 .DDContainer .dropdown__single-value {
-    color: black
-}
-
-.playButton {
-    background-color: red;
+    color: white
 }

@@ -1,0 +1,62 @@
+
+.authentication-page{
+    background-color: #373d48;
+    box-shadow: 0 0 15px 15px rgba(1,1,1,0.3);
+    padding: 4rem 6rem;
+    border-radius: 10px;
+}
+.authentication-page form{
+    padding: 25px 0px 15px;
+}
+
+.formData{
+    text-align: left;
+}
+
+.inputContainer{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.inputBox{
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.inputBox input{
+    background-color: #4e5665;
+    color: white;
+    border-radius:  35px;
+    border: none;
+    padding: 10px;
+    width: 100%;
+
+}
+
+::placeholder {
+    color: #b7bdc8
+}
+
+.authenticationButton{
+    background-color: #4CAF50;
+    color: #FFFFFF;
+    cursor: pointer;
+    border-radius:  35px;
+    border: none;
+    padding: 15px;
+    font: bold 16px arial;
+    width: 70%;
+  }
+
+.authenticationButton:hover{
+    background-color: #388E3C ;
+  }
+
+.authenticationButton:active{
+    background-color: #1B5E20;
+}
+
+.buttonContainer{
+    padding-top: 10px;
+    margin-bottom: 20px;
+}

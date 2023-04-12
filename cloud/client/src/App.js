@@ -13,7 +13,7 @@ function App() {
   // The Main Front End App;
   return (
     <div className='App'>
-      <h1 className="text-center">Audio Aurorra</h1>
+      <h1 className="App-Title">Audio Aurora</h1>
       <div className="App-content">
       <BrowserRouter>
         <Routes>

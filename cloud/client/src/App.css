@@ -12,10 +12,14 @@
   justify-content: center;
 }
 
-.uploadForm{
-  border: 5px red;
+input:focus{
+  outline: none;
 }
 
-.songSelectForm{
-  border: 5px blue;
+.App-Title{
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  text-align: center;
+  padding-top: 1em;
 }
