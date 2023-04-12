@@ -9,6 +9,7 @@ const Database = require('./Database.js');
 const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
 const ffmpeg = require('fluent-ffmpeg');
 const { measureMemory } = require('vm');
+const { time } = require('console');
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 // Paths Used by the server
@@ -18,7 +19,7 @@ let db = new Database("mongodb://0.0.0.0:27017", "SongDB");
 
 let AUDIO_API = 'ab6c8650476732681c33106a84dac8d9';
 let MUSIC_API = '0d677468618ecf74a7748aa122362c5f';
-let ESP8266_IP = '192.168.137.247';
+let ESP8266_IP = '192.168.137.175';
 
 // Purpose: Creates the path for the file upload if it does not exist
 // Input: path to the file
@@ -269,7 +270,7 @@ const TCPConnection = (signal) => {
 		// Connect to the server
 		const myConnect = net.createConnection({ host: ip, port: port }, () => {
 			console.log(`Connected to ${ip}:${port}`);
-			myConnect.write(`!${signal}?`);
+			myConnect.write(`!${signal}~`);
 		});
 
 		myConnect.on('error', (err) => {
@@ -288,23 +289,23 @@ const TCPConnection = (signal) => {
 app.get("/get_song_data", (req, res) => {	
 	console.log(req.query)
 	let signalTable = {
-		"Frequencya 1 - 440 Hz": "0",
-		"Frequencya 2 - 10,000 Hz": "1",
-		"songTwo": "2",
-		"songThree": "3",
-		"songFour": "4",
-		"songFive": "5",
-		"songSix": "6",
-		"songSeven": "7",
-		"songEight": "8",
-		"songNine": "9"
+		"Frequency 1 - 440 Hz": "0",
+		"Frequency 2 - 10,000 Hz": "1",
+		"Dont": "2"
 	}
 
 	db.getSong(req.query.username, req.query.name).then((data) => {
 		if (req.query.name in signalTable) {
 			let signal = signalTable[req.query.name].repeat(10);
 			TCPConnection(signal)
-			.then(() => res.send(JSON.stringify(data)))
+			.then(() => {
+				// send the data to the client after 4 seconds
+				let timeout = (req.query.name == "Dont") ? 0 : 3750;
+				
+				setTimeout(() => {
+					res.send(JSON.stringify(data));
+				}, timeout);
+			})
 		} 
 		else {
 			res.send(JSON.stringify(data));
