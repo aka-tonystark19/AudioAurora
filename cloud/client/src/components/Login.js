@@ -34,7 +34,7 @@ export default function Login({ username, setUsername, setAuthorized }) {
     }
     return (
         <div className="authentication-page">
-            <h1>Log In</h1>
+            <h1>Welcome Back</h1>
             <form onSubmit={handleLogIn}>
                 <div className='formData'>
                     <div className='inputContainer'>

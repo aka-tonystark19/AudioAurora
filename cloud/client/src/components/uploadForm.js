@@ -116,7 +116,7 @@ function UploadForm ({user, fileList, setFileList}) {
 
                     {/* Submit Button to upload the file */}
                     <div className="row">
-                        <input type="submit" id="submitButton" value="Upload" className={fileAccepted && validName ? "buttonActive" : "buttonInactive"} />  
+                        <input type="submit"  id="submitButton" value="Upload" className={fileAccepted && validName ? "submitButtons buttonActive" : "submitButtons buttonInactive"} />  
                     </div>
     
                 </form>

@@ -32,7 +32,7 @@ function SongSelectForm ({user, fileList}) {
                     />
                 </div>
                 <div className="col-md-3">
-                    <a id="playButton" className={song != null ? "playActive" : "playInactive"} onClick={getSongData}>Get Song Data</a>
+                    <a id="playButton" className={song != null ? "submitButtons buttonActive" : "submitButtons buttonInactive"} onClick={getSongData}>Get Song Data</a>
                 </div>
             </div>
             <div className="row songContent">

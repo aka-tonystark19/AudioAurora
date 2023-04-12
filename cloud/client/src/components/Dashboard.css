@@ -1,0 +1,33 @@
+.container{
+    background-color: #373d48;
+    box-shadow: 0 0 15px 15px rgba(1,1,1,0.3);
+    padding: 4rem 6rem;
+    border-radius: 10px;
+    height: 70vh;
+}
+
+.submitButtons {
+    border: none;
+    color: #FFFFFF;
+}
+  
+.buttonInactive {
+  background-color: #5C5C5C;
+  cursor: not-allowed;
+}
+
+.buttonActive {
+  background-color: #4CAF50;
+  cursor: pointer;
+  color: #FFFFFF;
+}
+
+.buttonActive:hover {
+  background-color: #388E3C;
+  color: #FFFFFF;
+}
+
+.buttonActive:active {
+  background-color: #1B5E20;
+  color: #FFFFFF;
+}

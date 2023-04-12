@@ -2,6 +2,8 @@ import UploadForm from './uploadForm';
 import SongSelectForm from './songSelectForm';
 import {useEffect, useState} from 'react';
 
+import './Dashboard.css';
+
 export default function Dashboard({ user }) {
 
   // State Variable that holds the list of files
