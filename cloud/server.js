@@ -180,10 +180,6 @@ app.post("/upload_files", upload.single("file"), (req, res) => {
 	let user = req.body.username;
 	let name = req.body.name;
 	
-	// Data to be retrieved from the API
-	let metaData = {};
-	let lyricData = {};
-	
 	convertType(user,name).then(() => {
 		identifySong(user, `${name}.wav`).then((songData) => {
 
@@ -191,17 +187,19 @@ app.post("/upload_files", upload.single("file"), (req, res) => {
 			// If the song was identified, get the lyrics
 			// If the song was not identified, set the metadata to default values
 			if (songData != undefined && songData["status"] == "success" && songData.result != null) {
-				metaData = songData.result;
 				getLyrics(songData.result.title, songData.result.artist).then((lyrics) => {
-					lyricData = lyrics;
+					db.addSong(user, name, songData.result, lyrics);
+					res.send(JSON.stringify({ filename: name }));
 				})
 			}
 			else {
-				metaData = {title: "Song Not Detected", artist: "Artist Not Found"}
-				lyricData = {lyrics_body: ""}
+				let metaData = {title: "Song Not Detected", artist: "Artist Not Found"}
+				let lyricData = {lyrics_body: ""}
+
+				db.addSong(user, name, metaData, lyricData);
+				res.send(JSON.stringify({ filename: name }));
 			}
-			db.addSong(user, name, metaData, lyricData);
-			res.send(JSON.stringify({ filename: name }));
+			
 
 			
 		})
