@@ -98,7 +98,8 @@ const identifySong = (folder, name) => {
 			})
 			.then(response => {console.log(response.data); return response.data})
 			.catch(error => console.log(error));
-
+			
+			// Method to delete file came from: https://www.bezkoder.com/node-js-delete-file/)
 			await fs.unlink(path, (err) => {
 				if (err) console.log(err);
 			});				
@@ -129,6 +130,35 @@ const getLyrics = (name, artist) => {
 	})
 }
 
+// Function Purpose: Establishes a TCP connection with the ESP8266 and sends it a string with the ! and ~ characters
+const TCPConnection = (signal) => {
+	return new Promise((resolve, reject) => {
+		const ip = ESP8266_IP;
+		const port = 80;
+
+		// Connect to the server
+		const myConnect = net.createConnection({ host: ip, port: port }, () => {
+			console.log(`Connected to ${ip}:${port}`);
+			myConnect.write(`!${signal}~`);
+		});
+
+		myConnect.on('error', (err) => {
+			console.error(err);
+		});
+
+		myConnect.on('data', data => {
+			myConnect.end();
+			resolve(data.toString());
+		})
+	})
+
+}
+
+// Function Purpose: Converts to an array of strings of "size" length, each string is a represnrtation of the hex value of the data
+// Input: path - location of the file
+//        size - maximum length of each packet
+// OUTPUT: Returns an array of strings where each element contains data of the file in path that is formatted with a special protocol
+// Note: This function is used to prepare the file for the ESP8266
 const parseFile = (path, size) => {
 	
 	return new Promise((resolve, reject) => {
@@ -140,7 +170,8 @@ const parseFile = (path, size) => {
 	
 			// Hex Parsing Based on https://stackoverflow.com/questions/6259515/how-can-i-split-a-string-into-segments-of-n-characters
 			const hexArray = hexString.match(RegExp(`.{1,${size - 2}}`, 'g'))
-	
+			
+			// Forwarding Protocol
 			// Adds the start character '!' to each packet
 			// Adds the end character '?' to each packet
 			// Adds the end character '~' instead of '?' to the last packet
@@ -150,6 +181,52 @@ const parseFile = (path, size) => {
 		})
 	})
 }
+
+// Function Purpose: Sends the file to the ESP8266
+const sendFile = (name) => {
+	parseFile(`uploads/${name}.wav`,34)
+	.then( packetArr => {
+		const ip = ESP8266_IP;
+		const port = 80;
+		let pakcetNum = 0;
+		console.log(packetArr)
+
+		// Make a TCP connection with ESP8266 and send the first packet
+		const myConnect = net.createConnection({ host: ip, port: port }, () => {
+			console.log(`Connected to ${ip}:${port}`);
+
+			console.log(`Sending packet: ${pakcetNum + 1}/${packetArr.length}`);
+			myConnect.write(packetArr[pakcetNum]);
+		});
+
+		// When the ESP8266 sends an acknowledgment, send the next packet
+		// When the last packet is sent, close the connection
+		myConnect.on('data', data => {
+			console.log(`Acknowledgment received: ${pakcetNum + 1}`);
+			console.log(data.toString());
+			if (pakcetNum < packetArr.length - 1) {
+				setTimeout(() => {
+					pakcetNum++;
+					console.log(`Sending packet: ${pakcetNum + 1}/${packetArr.length}`);
+					myConnect.write(packetArr[pakcetNum]);
+				}, 1000); 
+			} else {
+				console.log("Done")
+				myConnect.end();
+			}
+		});
+
+		// If there is an error, close the connection
+		myConnect.on('error', (err) => {
+			console.error(err);
+			myConnect.end();
+		});
+		
+
+	})
+	.catch((message, err) => console.log(message, err));
+}
+
 
 // Express app: sets up middleware for express
 const app = express();
@@ -217,84 +294,21 @@ app.get("/file_list", (req, res) => {
 	})
 });
 
-const sendFile = () => {
-	parseFile(`uploads/alice.txt`,34)
-	// parseFile(`uploads/${req.query.name}.wav`, 1024)
-	.then( packetArr => {
-		const ip = ESP8266_IP;
-		const port = 80;
-		let pakcetNum = 0;
-		console.log(packetArr)
-
-		// Make a TCP connection with ESP8266 and send the first packet
-		const myConnect = net.createConnection({ host: ip, port: port }, () => {
-			console.log(`Connected to ${ip}:${port}`);
-
-			console.log(`Sending packet: ${pakcetNum + 1}/${packetArr.length}`);
-			myConnect.write(packetArr[pakcetNum]);
-		});
-
-		// When the ESP8266 sends an acknowledgment, send the next packet
-		// When the last packet is sent, close the connection
-		myConnect.on('data', data => {
-			console.log(`Acknowledgment received: ${pakcetNum + 1}`);
-			console.log(data.toString());
-			if (pakcetNum < packetArr.length - 1) {
-				setTimeout(() => {
-					pakcetNum++;
-					console.log(`Sending packet: ${pakcetNum + 1}/${packetArr.length}`);
-					myConnect.write(packetArr[pakcetNum]);
-				}, 1000); 
-			} else {
-				console.log("Done")
-				myConnect.end();
-			}
-		});
-
-		// If there is an error, close the connection
-		myConnect.on('error', (err) => {
-			console.error(err);
-			myConnect.end();
-		});
-		
-
-	})
-	.catch((message, err) => console.log(message, err));
-}
-
-const TCPConnection = (signal) => {
-	return new Promise((resolve, reject) => {
-		const ip = ESP8266_IP;
-		const port = 80;
-
-		// Connect to the server
-		const myConnect = net.createConnection({ host: ip, port: port }, () => {
-			console.log(`Connected to ${ip}:${port}`);
-			myConnect.write(`!${signal}~`);
-		});
-
-		myConnect.on('error', (err) => {
-			console.error(err);
-		});
-
-		myConnect.on('data', data => {
-			myConnect.end();
-			resolve(data.toString());
-		})
-	})
-
-}
-
-// GET Request to get the data for a specific song
+// GET Request to get the data for a specific song from the database
 app.get("/get_song_data", (req, res) => {	
-	console.log(req.query)
+	
+	// Lookup table for the songs that need to send a signal to the ESP8266
 	let signalTable = {
 		"Frequency 1 - 440 Hz": "0",
 		"Frequency 2 - 10,000 Hz": "1",
 		"Dont": "2"
 	}
 
+	// Database lookup
 	db.getSong(req.query.username, req.query.name).then((data) => {
+		
+		// If the song is in the lookup table, send the signal to the ESP8266 and then send the data to the client
+		// If the song is not in the lookup table, send the data to the client
 		if (req.query.name in signalTable) {
 			let signal = signalTable[req.query.name].repeat(10);
 			TCPConnection(signal)

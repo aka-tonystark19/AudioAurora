@@ -24,6 +24,9 @@ function SongSelectForm ({user, fileList}) {
         <>
             <div className="row selectSong">
                 <div className="col-md-9">
+                    {/* Dropdown Creation Based on https://www.npmjs.com/package/react-select
+                      * CSS Targeting of dropdown based on: https://stackoverflow.com/questions/63212723/using-dark-mode-in-react-select
+                     */}
                     <Select
                         className="DDContainer"
                         classNamePrefix="dropdown" 
