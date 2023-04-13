@@ -3,7 +3,7 @@
 # Machine generated for CPU 'nios2_gen2_0' in SOPC Builder design 'vga_system'
 # SOPC Builder design path: ../../vga_system.sopcinfo
 #
-# Generated: Wed Apr 12 17:06:17 PDT 2023
+# Generated: Thu Apr 13 11:27:30 PDT 2023
 
 # DO NOT MODIFY THIS FILE
 #

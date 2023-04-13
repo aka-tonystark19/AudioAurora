@@ -2,9 +2,9 @@
 <sch:Settings xmlns:sch="http://www.altera.com/embeddedsw/bsp/schema">
         <BspType>hal</BspType>
         <BspVersion>default</BspVersion>
-        <BspGeneratedTimeStamp>Apr 12, 2023 5:06:16 PM</BspGeneratedTimeStamp>
-        <BspGeneratedUnixTimeStamp>1681344376850</BspGeneratedUnixTimeStamp>
-        <BspGeneratedLocation>C:\Users\vishr\Desktop\UBC\CPEN391\l2c-42-sava\FFT_VGA_combined\Quartus\software\combined_bsp</BspGeneratedLocation>
+        <BspGeneratedTimeStamp>13-Apr-2023 11:27:28 AM</BspGeneratedTimeStamp>
+        <BspGeneratedUnixTimeStamp>1681410448442</BspGeneratedUnixTimeStamp>
+        <BspGeneratedLocation>D:\CPEN391\l2c-42-sava\FFT_VGA_combined\Quartus\software\combined_bsp</BspGeneratedLocation>
         <BspSettingsFile>settings.bsp</BspSettingsFile>
         <SopcDesignFile>..\..\vga_system.sopcinfo</SopcDesignFile>
         <JdiFile>default</JdiFile>

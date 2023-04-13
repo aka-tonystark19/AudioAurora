@@ -35,7 +35,7 @@ int songpicker = 0;
 
 // Array to store the color values of the pixels
 unsigned char image[160][120];
-static int sizes[] = {50, 40, 30, 20, 10, 10, 20, 30, 40, 50, 50, 40, 30, 20, 10, 10, 20, 30, 40, 50};
+static int sizes[] = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
 int bluepreset[] = {0b000001, 0b000010, 0b000011, 0b010011, 0b010010, 0b000110, 0b000111, 0b010111, 0b000101, 0b000111, 0b011011, 0b001111, 0b011111};
 int tecnopreset[] = {0b001000, 0b001100, 0b101100, 0b111000, 
                     0b110100, 0b110000, 0b100000, 0b010000, 
@@ -4265,7 +4265,7 @@ static void vert_time_isr(void * context, alt_u32 id){
 			runfft((progress/20)*N);
 		}
 
-	} else {
+	} else if (!(progress % 20 == 1)) {
 		runvga(progress%20);
 	}
 }
@@ -4390,33 +4390,69 @@ void runfft(int index) {
 			}
 		}
 
-		unsigned int freqsum = 0;
-		unsigned int magsum = 0;
-		unsigned int weighted = 0;
-		for (int i = N/2-1; i >= N/2-40; i--) {
+		// unsigned int freqsum = 0;
+		// unsigned int magsum = 0;
+		// unsigned int weighted = 0;
+		// for (int i = N/2-1; i >= N/2-40; i--) {
+		// 	if (freq[i] > 20000) {
+		// 		freqsum += freq[i]-20000;
+		// 		weighted += (freq[i]-20000) * magn[i];
+		// 		magsum += magn[i];
+		// 	} else {
+		// 		freqsum += freq[i];
+		// 		weighted += freq[i] * magn[i];
+		// 		magsum += magn[i];
+		// 	}
+		// }
+
+		// printf("Weighted average frequency: %d\n", (weighted/magsum));
+
+		// for (int j = 0; j < 20; j++) {
+		// 	if ((signed int)(rangeFreq[j]-(weighted/magsum)) > 0) {
+		// 		if (j-3 >=0) occurFreq[j-3] = 20;
+		// 		if (j-2 >=0) occurFreq[j-2] = 50;
+		// 		if (j-1 >=0) occurFreq[j-1] = 70;
+		// 		occurFreq[j] = 80;
+		// 		if (j+1 <= 19) occurFreq[j+1] = 70;
+		// 		if (j+2 <= 19) occurFreq[j+2] = 50;
+		// 		if (j+3 <= 19) occurFreq[j+3] = 20;
+		// 		break;
+		// 	}
+		// }
+
+		unsigned int freqsum[4] = {0};
+		unsigned int magsum[4] = {0};
+		unsigned int weighted[4] = {0};
+		for (unsigned int i = N/2-1; i >= N/2-40; i--) {
+			unsigned int index = ((i - (N/2-40))/10);
 			if (freq[i] > 20000) {
-				freqsum += freq[i]-20000;
-				weighted += (freq[i]-20000) * magn[i];
-				magsum += magn[i];
+				freqsum[index] += freq[i]-20000;
+				weighted[index] += (freq[i]-20000) * magn[i];
+				magsum [index]+= magn[i];
 			} else {
-				freqsum += freq[i];
-				weighted += freq[i] * magn[i];
-				magsum += magn[i];
+				freqsum[index] += freq[i];
+				weighted[index] += freq[i] * magn[i];
+				magsum[index] += magn[i];
 			}
 		}
 
-		printf("Weighted average frequency: %d\n", (weighted/magsum));
+		// printf("Weighted average frequency: %d\n", (weighted[3]/magsum[3]));
+		// printf("Weighted average frequency: %d\n", (weighted[2]/magsum[2]));
+		// printf("Weighted average frequency: %d\n", (weighted[1]/magsum[1]));
+		// printf("Weighted average frequency: %d\n", (weighted[0]/magsum[0]));
 
-		for (int j = 0; j < 20; j++) {
-			if ((signed int)(rangeFreq[j]-(weighted/magsum)) > 0) {
-				if (j-3 >=0) occurFreq[j-3] = 20;
-				if (j-2 >=0) occurFreq[j-2] = 50;
-				if (j-1 >=0) occurFreq[j-1] = 70;
-				occurFreq[j] = 80;
-				if (j+1 <= 19) occurFreq[j+1] = 70;
-				if (j+2 <= 19) occurFreq[j+2] = 50;
-				if (j+3 <= 19) occurFreq[j+3] = 20;
-				break;
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 20; j++) {
+				if ((signed int)(rangeFreq[j]-(weighted[i]/magsum[i])) > 0) {
+					if (j-3 >=0) occurFreq[j-3] += (i+1)*3;
+					if (j-2 >=0) occurFreq[j-2] += (i+1)*6;
+					if (j-1 >=0) occurFreq[j-1] += (i+1)*10;
+					occurFreq[j] += (i+1)*20;
+					if (j+1 <= 19) occurFreq[j+1] += (i+1)*10;
+					if (j+2 <= 19) occurFreq[j+2] += (i+1)*6;
+					if (j+3 <= 19) occurFreq[j+3] += (i+1)*3;
+					break;
+				}
 			}
 		}
 	}
@@ -4437,15 +4473,13 @@ void runvga(int change) {
 		// Change Size and Color
 		for (int i = 0; i < 20; i++) {
 			// size change
-			if (change == 1) {
-				sizes[i] = (unsigned int)occurFreq[i];
+			if (change == 2) {
+				sizes[i] = ((unsigned int)occurFreq[i] > 80) ? 80 : (unsigned int)occurFreq[i];
 			} 
 			else if (single == 0) {
-				if (rand() % 6 == 0) {
-					sizes[i]++;
-				} else if (rand() % 6 == 1) {
-					sizes[i]--;
-				}
+				if (sizes[i]-1 > 0) sizes[i] -= 1;
+				else sizes[i] = 0;
+				
 			}
 
 			// color change
