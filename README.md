@@ -1,7 +1,5 @@
 # AudioAurora
 
-![AudioAurora Logo](link_to_logo.png)
-
 ---
 
 ## Description
@@ -62,5 +60,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For inquiries or support regarding AudioAurora, please contact me at [adityaphalod@gmail.com](mailto:adityaphalod@gmail.com).
 
 ---
-
-Feel free to customize this README according to your project's specific details and requirements.
